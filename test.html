@@ -651,13 +651,15 @@
             { id: 8, name: "法式經典香草可麗露 (2入)", price: 130, category: "常溫點心", img: "images (8).jpg" }
         ];
 
-        // --- 核心：獨立分頁切換顯示 (已修復手機版購物車不跳轉問題) ---
+        // --- ⚡ 徹底修正：分頁與手機版購物車定位邏輯 ⚡ ---
         function showPage(pageId, scrollToCart = false) {
             const sections = document.querySelectorAll('.page-section');
             sections.forEach(sec => sec.classList.remove('active'));
 
+            // 啟動點選的頁面
             document.getElementById(pageId).classList.add('active');
 
+            // 調整導覽列標籤狀態
             document.getElementById('nav-home').classList.remove('active');
             document.getElementById('nav-order').classList.remove('active');
             document.getElementById('nav-login').classList.remove('active');
@@ -666,24 +668,18 @@
             if (pageId === 'order-section') document.getElementById('nav-order').classList.add('active');
             if (pageId === 'login-section') document.getElementById('nav-login').classList.add('active');
 
-            // 修正手機版購物車滾動邏輯
-            if (scrollToCart) {
-                // 如果是按了購物車，且目前視窗寬度小於或等於 950px (進入手機/平板排版)
-                if (window.innerWidth <= 950) {
-                    setTimeout(() => {
-                        const cartAnchor = document.getElementById('cart-anchor');
-                        if (cartAnchor) {
-                            // 考量到頂部 sticky 導覽列寬度，多留個 100px 避免被蓋到
-                            const topOffset = cartAnchor.getBoundingClientRect().top + window.pageYOffset - 100;
-                            window.scrollTo({top: topOffset, behavior: 'smooth'});
-                        }
-                    }, 100); // 延遲 100ms 確保頁面元件渲染切換完成
-                } else {
-                    // 電腦版直接滾到頂端即可
-                    window.scrollTo({top: 0, behavior: 'smooth'});
-                }
+            // 核心修正：判斷是否為手機版且點擊購物車
+            if (scrollToCart && window.innerWidth <= 950) {
+                // 如果是手機版點購物車，不要滾到頂端，直接用平滑動畫拉到購物車錨點
+                setTimeout(() => {
+                    const cartAnchor = document.getElementById('cart-anchor');
+                    if (cartAnchor) {
+                        const topOffset = cartAnchor.getBoundingClientRect().top + window.pageYOffset - 90;
+                        window.scrollTo({top: topOffset, behavior: 'smooth'});
+                    }
+                }, 50); // 確保 DOM 已經完全顯示
             } else {
-                // 一般切換分頁直接滾到頂
+                // 電腦版或是一般切換分頁，則正常安全滾回頂端
                 window.scrollTo({top: 0, behavior: 'smooth'});
             }
         }

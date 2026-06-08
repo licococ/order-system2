@@ -3,239 +3,536 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>美味探索家 | 線上訂購系統</title>
+    <title>甜蜜時光 Patisserie</title>
     <style>
-        /* 全域樣式設定 */
-        :root {
-            --primary-color: #e67e22;
-            --secondary-color: #2c3e50;
-            --background-color: #f9f9f9;
-        }
-
-        body {
-            font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+        /* --- 基礎全域樣式 --- */
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            background-color: var(--background-color);
-            color: #333;
+            font-family: 'Playfair Display', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif, "微軟正黑體";
         }
-
-        /* 導覽列 */
-        header {
-            background-color: white;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
+        body {
+            background-color: #fcf8f5;
+            color: #4a3e3d;
+            line-height: 1.7;
         }
-
-        .nav-container {
+        .container {
             max-width: 1200px;
             margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* --- 導覽列樣式 --- */
+        header {
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 15px rgba(142, 108, 88, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .nav-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 18px 20px;
         }
-
         .logo {
-            font-size: 24px;
-            font-weight: bold;
-            color: var(--primary-color);
-        }
-
-        nav a {
+            font-size: 22px;
+            font-weight: 700;
+            color: #7a5844;
             text-decoration: none;
-            color: var(--secondary-color);
-            margin-left: 20px;
-            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            letter-spacing: 1px;
             cursor: pointer;
         }
-
-        nav a:hover {
-            color: var(--primary-color);
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+            align-items: center;
+        }
+        .nav-menu a {
+            text-decoration: none;
+            color: #6e5d5b;
+            font-weight: 500;
+            padding: 5px 10px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            font-size: 15px;
+        }
+        .nav-menu a:hover, .nav-menu a.active {
+            color: #c98e71;
         }
 
-        /* 主體區塊內容 */
-        .container {
-            max-width: 1200px;
-            margin: 30px auto;
-            padding: 0 20px;
+        /* --- 下拉選單樣式 --- */
+        .dropdown {
+            position: relative;
+            display: inline-block;
         }
-
-        section {
-            background-color: white;
-            padding: 30px;
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #fff;
+            min-width: 150px;
+            box-shadow: 0px 8px 25px rgba(142, 108, 88, 0.1);
             border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding: 8px 0;
+            z-index: 1;
+            top: 100%;
+            border: 1px solid #f5eae4;
+        }
+        .dropdown-content a {
+            color: #4a3e3d;
+            padding: 10px 20px;
+            display: block;
+            text-align: left;
+            font-size: 14px;
+        }
+        .dropdown-content a:hover {
+            background-color: #fdfaf6;
+            color: #c98e71;
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* --- 區塊切換隱藏機制 --- */
+        .page-section {
+            display: none;
+        }
+        .page-section.active {
+            display: block;
+            animation: fadeIn 0.6s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ================= 高級質感首頁樣式 ================= */
+        /* 1. 質感大圖橫幅 */
+        .hero-section {
+            background: linear-gradient(135deg, #f3e6df 0%, #eade7a54 100%), url('images (4).jpg');
+            background-size: cover;
+            background-position: center;
+            border-radius: 20px;
+            padding: 90px 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 50px;
+            box-shadow: 0 10px 30px rgba(142, 108, 88, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-content {
+            max-width: 550px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+        }
+        .hero-content h1 {
+            font-size: 38px;
+            color: #4a3e3d;
+            margin-bottom: 15px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            line-height: 1.3;
+        }
+        .hero-content p {
+            font-size: 16px;
+            color: #6e5d5b;
+            margin-bottom: 25px;
+        }
+        .btn-primary {
+            display: inline-block;
+            background-color: #7a5844;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(122, 88, 68, 0.2);
+            cursor: pointer;
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: #c98e71;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(201, 142, 113, 0.3);
+        }
+        .hero-featured-img {
+            width: 320px;
+            height: 320px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 8px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        @media (max-width: 850px) {
+            .hero-section {
+                flex-direction: column;
+                padding: 40px 20px;
+                text-align: center;
+            }
+            .hero-featured-img {
+                display: none;
+            }
+            .hero-content {
+                max-width: 100%;
+            }
+        }
+
+        /* 2. 核心特點區 */
+        .section-title {
+            text-align: center;
+            font-size: 26px;
+            color: #4a3e3d;
+            margin-bottom: 35px;
+            position: relative;
+            letter-spacing: 2px;
+        }
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 40px;
+            height: 3px;
+            background-color: #c98e71;
+            margin: 10px auto 0;
+            border-radius: 2px;
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 60px;
+        }
+        .feature-card {
+            background: #fff;
+            padding: 35px 25px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(142, 108, 88, 0.03);
+            transition: all 0.3s ease;
+            border: 1px solid #fbf7f5;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(142, 108, 88, 0.08);
+        }
+        .feature-icon {
+            font-size: 32px;
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+        .feature-card h3 {
+            font-size: 18px;
+            color: #7a5844;
+            margin-bottom: 12px;
+        }
+        .feature-card p {
+            font-size: 14px;
+            color: #8c7e7c;
+        }
+
+        /* 3. 主廚推薦特區 */
+        .chef-recommend-box {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 5px 25px rgba(142, 108, 88, 0.02);
             margin-bottom: 40px;
         }
-
-        h2 {
-            color: var(--secondary-color);
-            border-left: 5px solid var(--primary-color);
-            padding-left: 10px;
-            margin-top: 0;
+        .recommend-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+        .recommend-item {
+            text-align: center;
+            cursor: pointer;
+        }
+        .recommend-item img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            transition: transform 0.4s ease;
+        }
+        .recommend-item:hover img {
+            transform: scale(1.03);
+        }
+        .recommend-name {
+            font-size: 15px;
+            font-weight: bold;
+            color: #4a3e3d;
+        }
+        .recommend-price {
+            font-size: 14px;
+            color: #c98e71;
+            font-weight: bold;
+            margin-top: 4px;
         }
 
-        /* 1. 菜單簡介區塊 (Grid 佈局) */
+        /* ================= 點餐頁與購物車版面配置 ================= */
+        .order-layout {
+            display: grid;
+            grid-template-columns: 2.6fr 1fr;
+            gap: 35px;
+            margin-top: 10px;
+        }
+        @media (max-width: 950px) {
+            .order-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+        .menu-title {
+            font-size: 26px;
+            color: #4a3e3d;
+            margin-bottom: 5px;
+            border-left: 4px solid #c98e71;
+            padding-left: 12px;
+            letter-spacing: 1px;
+        }
+        .menu-subtitle {
+            font-size: 14px;
+            color: #8c7e7c;
+            margin-bottom: 30px;
+        }
         .menu-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 25px;
         }
 
+        /* 商品卡片樣式 */
         .menu-item {
-            border: 1px solid #eee;
-            border-radius: 8px;
-            overflow: hidden;
-            transition: transform 0.2s;
             background: #fff;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(142, 108, 88, 0.03);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(142, 108, 88, 0.02);
         }
-
         .menu-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transform: translateY(-6px);
+            box-shadow: 0 10px 25px rgba(142, 108, 88, 0.08);
         }
-
         .menu-item img {
             width: 100%;
             height: 200px;
             object-fit: cover;
-            display: block;
+            background-color: #f5eae4;
         }
-
         .menu-info {
-            padding: 15px;
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
         }
-
-        .menu-title {
-            font-size: 18px;
+        .menu-category-tag {
+            align-self: flex-start;
+            background-color: #f7ede8;
+            color: #b57a5f;
+            font-size: 11px;
+            padding: 3px 10px;
+            border-radius: 20px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        .menu-item .menu-title {
+            font-size: 16px;
             font-weight: bold;
-            margin: 0 0 10px 0;
+            color: #4a3e3d;
+            margin-bottom: 8px;
+            border: none;
+            padding-left: 0;
         }
-
         .menu-price {
-            color: var(--primary-color);
-            font-weight: bold;
             font-size: 16px;
+            color: #b57a5f;
+            font-weight: 700;
             margin-bottom: 15px;
+            margin-top: auto;
         }
-
         .btn-add {
-            background-color: var(--primary-color);
+            width: 100%;
+            background-color: #caa08c;
             color: white;
             border: none;
-            padding: 8px 15px;
-            border-radius: 4px;
+            padding: 11px;
+            border-radius: 8px;
             cursor: pointer;
-            width: 100%;
-            font-size: 14px;
+            font-weight: bold;
+            transition: background 0.3s;
         }
-
         .btn-add:hover {
-            background-color: #d35400;
+            background-color: #b5836c;
         }
 
-        /* 2. 会员登入/註冊區塊 */
-        .login-box {
-            max-width: 400px;
-            margin: 0 auto;
+        /* 側邊購物車樣式 */
+        .cart-box {
+            background: #fff;
+            padding: 22px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(142, 108, 88, 0.06);
+            align-self: start;
+            position: sticky;
+            top: 100px;
+            border: 1px solid rgba(142, 108, 88, 0.03);
         }
-
-        .form-group {
+        .cart-box h3 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #f7ede8;
+            color: #4a3e3d;
+        }
+        .cart-items-list {
+            list-style: none;
+            max-height: 280px;
+            overflow-y: auto;
             margin-bottom: 15px;
         }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: 500;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-
-        .btn-submit {
-            background-color: var(--secondary-color);
-            color: white;
-            border: none;
-            padding: 10px;
-            border-radius: 4px;
-            cursor: pointer;
-            width: 100%;
-            font-size: 16px;
-        }
-
-        .btn-submit:hover {
-            background-color: #34495e;
-        }
-
-        /* 切換提示文字樣式 */
-        .switch-form-text {
-            text-align: center;
-            margin-top: 15px;
-            font-size: 14px;
-            color: #666;
-        }
-
-        .switch-form-text span {
-            color: var(--primary-color);
-            cursor: pointer;
-            text-decoration: underline;
-        }
-
-        #user-status {
-            text-align: center;
-            font-weight: bold;
-            color: #27ae60;
-        }
-
-        /* 3. 購物車與訂購區塊 */
-        .cart-list {
-            list-style: none;
-            padding: 0;
-        }
-
         .cart-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            font-size: 13px;
             padding: 10px 0;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px dashed #f5eae4;
         }
-
-        .cart-total {
-            text-align: right;
-            font-size: 18px;
+        .empty-cart-msg {
+            color: #a39592;
+            text-align: center;
+            padding: 25px 0;
+            font-size: 14px;
+        }
+        .cart-total-box {
+            border-top: 2px solid #f7ede8;
+            padding-top: 15px;
+        }
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 16px;
             font-weight: bold;
-            margin-top: 20px;
+            margin-bottom: 15px;
+            color: #4a3e3d;
         }
-
         .btn-checkout {
-            background-color: #27ae60;
+            width: 100%;
+            background-color: #7a5844;
             color: white;
             border: none;
-            padding: 12px 25px;
-            border-radius: 4px;
+            padding: 12px;
+            border-radius: 8px;
             cursor: pointer;
-            float: right;
-            margin-top: 15px;
-            font-size: 16px;
+            font-weight: bold;
+            font-size: 14px;
+            transition: background 0.3s;
         }
-
         .btn-checkout:hover {
-            background-color: #219653;
+            background-color: #c98e71;
         }
 
-        .clear {
-            clear: both;
+        /* --- 會員中心系統樣式 --- */
+        .auth-container {
+            max-width: 400px;
+            margin: 40px auto;
+            background: white;
+            padding: 35px;
+            border-radius: 16px;
+            box-shadow: 0 5px 25px rgba(142, 108, 88, 0.06);
+            border: 1px solid rgba(142, 108, 88, 0.02);
+        }
+        .auth-container h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #4a3e3d;
+            letter-spacing: 1px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #6e5d5b;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #e5dbd5;
+            border-radius: 8px;
+            font-size: 14px;
+            background-color: #fdfcfb;
+            transition: border-color 0.3s;
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: #c98e71;
+            background-color: #fff;
+        }
+        .btn-auth {
+            width: 100%;
+            padding: 12px;
+            background-color: #caa08c;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .btn-auth:hover {
+            background-color: #b5836c;
+        }
+        .auth-switch {
+            text-align: center;
+            margin-top: 18px;
+            font-size: 13px;
+            color: #8c7e7c;
+        }
+        .auth-switch a {
+            color: #b57a5f;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .user-welcome-box {
+            text-align: center;
+            padding: 40px 20px;
+        }
+        .btn-logout {
+            background-color: #d9534f;
+            color: white;
+            border: none;
+            padding: 9px 18px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 20px;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        .btn-logout:hover {
+            background-color: #c9302c;
         }
     </style>
 </head>
@@ -243,110 +540,228 @@
 
     <header>
         <div class="nav-container">
-            <div class="logo">🍳 美味探索家</div>
-            <nav>
-                <a href="#menu-section">菜單簡介</a>
-                <a href="#cart-section">線上訂購 (<span id="cart-count">0</span>)</a>
-                <a href="#login-section">會員中心</a>
-            </nav>
+            <a onclick="showPage('home-section')" class="logo">🍰 甜蜜時光 Patisserie</a>
+            <ul class="nav-menu">
+                <li><a id="nav-home" onclick="showPage('home-section')" class="active">關於我們</a></li>
+                <li class="dropdown">
+                    <a id="nav-order" onclick="showPage('order-section')">線上點餐 ▾</a>
+                    <div class="dropdown-content">
+                        <a onclick="showPage('order-section'); filterCategory('全部甜點')">全部甜點</a>
+                        <a onclick="showPage('order-section'); filterCategory('法式塔類')">法式塔類</a>
+                        <a onclick="showPage('order-section'); filterCategory('招牌蛋糕')">招牌蛋糕</a>
+                        <a onclick="showPage('order-section'); filterCategory('常溫點心')">常溫點心</a>
+                    </div>
+                </li>
+                <li><a id="nav-login" onclick="showPage('login-section')">會員中心</a></li>
+                <li><a onclick="showPage('order-section')" style="color: #b57a5f; font-weight: bold;">🛒 購物車 (<span id="cart-count">0</span>)</a></li>
+            </ul>
         </div>
     </header>
 
     <div class="container">
+        
+        <section id="home-section" class="page-section active">
+            <div class="hero-section">
+                <div class="hero-content">
+                    <h1>尋找專屬您的<br>午後法式浪漫</h1>
+                    <p>每一道手工甜點，都是精選頂級食材與職人精神的完美揉合。減糖配方設計，為您捎來最純粹、無負擔的幸福滋味。</p>
+                    <button class="btn-primary" onclick="showPage('order-section'); filterCategory('全部甜點')">探索精選甜點</button>
+                </div>
+                <img src="images (4).jpg" class="hero-featured-img" alt="主打草莓戚風蛋糕">
+            </div>
 
-        <section id="menu-section">
-            <h2>精選菜單</h2>
-            <p>點擊下方按鈕即可直接加入購物車進行訂購！</p>
-            <div class="menu-grid">
-                <div class="menu-item">
-                    <img src="bread.jpg" alt="經典歐式麵包">
-                    <div class="menu-info">
-                        <div class="menu-title">經典歐式麵包</div>
-                        <div class="menu-price">NT$ 120</div>
-                        <button class="btn-add" onclick="addToCart('經典歐式麵包', 120)">加入購物車</button>
-                    </div>
+            <h2 class="section-title">我們的烘焙堅持</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <span class="feature-icon">✨</span>
+                    <h3>嚴選頂級食材</h3>
+                    <p>進口小山園宇治抹茶、比利時醇黑巧克力，絕不妥協的嚴苛標準。</p>
                 </div>
-                <div class="menu-item">
-                    <img src="pasta.jpg" alt="番茄肉醬義大利麵">
-                    <div class="menu-info">
-                        <div class="menu-title">番茄肉醬義大利麵</div>
-                        <div class="menu-price">NT$ 220</div>
-                        <button class="btn-add" onclick="addToCart('番茄肉醬義大利麵', 220)">加入購物車</button>
-                    </div>
+                <div class="feature-card">
+                    <span class="feature-icon">👩‍🍳</span>
+                    <h3>每日新鮮手作</h3>
+                    <p>職人每日凌晨現製烘焙，捕捉甜點出爐時最完美的飽滿風味。</p>
                 </div>
-                <div class="menu-item">
-                    <img src="coffee.jpg" alt="精選拿鐵咖啡">
-                    <div class="menu-info">
-                        <div class="menu-title">精選拿鐵咖啡</div>
-                        <div class="menu-price">NT$ 90</div>
-                        <button class="btn-add" onclick="addToCart('精選拿鐵咖啡', 90)">加入購物車</button>
+                <div class="feature-card">
+                    <span class="feature-icon">🌱</span>
+                    <h3>輕盈減糖配方</h3>
+                    <p>精心調整黃金甜度比例，保留濃郁香氣，讓享受美味更無負擔。</p>
+                </div>
+            </div>
+
+            <div class="chef-recommend-box">
+                <h2 class="section-title">主廚推薦 • 人氣熱銷</h2>
+                <div class="recommend-grid">
+                    <div class="recommend-item" onclick="showPage('order-section'); filterCategory('法式塔類')">
+                        <img src="images (3).jpg" alt="宇治抹茶塔">
+                        <div class="recommend-name">小山園宇治抹茶塔</div>
+                        <div class="recommend-price">NT$ 150</div>
+                    </div>
+                    <div class="recommend-item" onclick="showPage('order-section'); filterCategory('招牌蛋糕')">
+                        <img src="images (4).jpg" alt="草莓戚風蛋糕">
+                        <div class="recommend-name">經典草莓戚風蛋糕</div>
+                        <div class="recommend-price">NT$ 240</div>
+                    </div>
+                    <div class="recommend-item" onclick="showPage('order-section'); filterCategory('常溫點心')">
+                        <img src="images (8).jpg" alt="可麗露">
+                        <div class="recommend-name">法式經典香草可麗露</div>
+                        <div class="recommend-price">NT$ 130</div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="cart-section">
-            <h2>您的訂購商品</h2>
-            <div id="empty-cart-msg">購物車目前是空的，快去挑選美味的餐點吧！</div>
-            <ul class="cart-list" id="cart-items"></ul>
-            <div class="cart-total" id="cart-total-box" style="display: none;">
-                總計: NT$ <span id="total-amount">0</span>
-                <br>
-                <button class="btn-checkout" onclick="checkout()">確認送出訂單</button>
-                <div class="clear"></div>
+        <section id="order-section" class="page-section">
+            <div class="order-layout">
+                
+                <div class="menu-products-column">
+                    <h2 class="menu-title" id="menu-title-text">精選甜點菜單</h2>
+                    <p class="menu-subtitle">點擊下方按鈕即可直接加入購物車！</p>
+                    
+                    <div class="menu-grid" id="menu-grid-box"></div>
+                </div>
+
+                <div class="cart-box">
+                    <h3>🛒 我的購物車</h3>
+                    <div class="empty-cart-msg" id="empty-cart-msg">購物車目前是空的。</div>
+                    
+                    <ul class="cart-items-list" id="cart-items"></ul>
+                    
+                    <div class="cart-total-box" id="cart-total-box" style="display: none;">
+                        <div class="total-row">
+                            <span>總金額：</span>
+                            <span>NT$ <span id="total-amount">0</span></span>
+                        </div>
+                        <button class="btn-checkout" onclick="checkout()">確認送出訂單</button>
+                    </div>
+                </div>
+
             </div>
         </section>
 
-        <section id="login-section">
-            <h2>會員中心</h2>
+        <section id="login-section" class="page-section">
             
-            <div class="login-box" id="login-form-box">
+            <div class="auth-container" id="login-form-box">
+                <h2>會員登入</h2>
                 <form onsubmit="handleLogin(event)">
                     <div class="form-group">
-                        <label for="login-email">電子信箱</label>
-                        <input type="email" id="login-email" required placeholder="example@email.com">
+                        <label for="login-email">電子信箱 (Email)</label>
+                        <input type="email" id="login-email" required placeholder="example@mail.com">
                     </div>
                     <div class="form-group">
                         <label for="login-password">密碼</label>
                         <input type="password" id="login-password" required placeholder="請輸入密碼">
                     </div>
-                    <button type="submit" class="btn-submit">登入</button>
+                    <button type="submit" class="btn-auth">登入</button>
                 </form>
-                <div class="switch-form-text">
-                    還不是會員？ <span onclick="toggleForm('register')">立即免費註冊</span>
+                <div class="auth-switch">
+                    還沒有帳號嗎？ <a href="#" onclick="toggleForm('register')">立即註冊</a>
                 </div>
             </div>
 
-            <div class="login-box" id="register-form-box" style="display: none;">
+            <div class="auth-container" id="register-form-box" style="display: none;">
+                <h2>加入會員</h2>
                 <form onsubmit="handleRegister(event)">
                     <div class="form-group">
-                        <label for="reg-email">電子信箱 (作為帳號)</label>
-                        <input type="email" id="reg-email" required placeholder="example@email.com">
+                        <label for="reg-email">電子信箱 (Email)</label>
+                        <input type="email" id="reg-email" required placeholder="example@mail.com">
                     </div>
                     <div class="form-group">
                         <label for="reg-password">設定密碼</label>
-                        <input type="password" id="reg-password" required placeholder="請輸入密碼 (至少4碼)" minlength="4">
+                        <input type="password" id="reg-password" required placeholder="請輸入密碼">
                     </div>
                     <div class="form-group">
                         <label for="reg-confirm">確認密碼</label>
                         <input type="password" id="reg-confirm" required placeholder="請再次輸入密碼">
                     </div>
-                    <button type="submit" class="btn-submit" style="background-color: var(--primary-color);">確認註冊</button>
+                    <button type="submit" class="btn-auth">確認註冊</button>
                 </form>
-                <div class="switch-form-text">
-                    已經有帳號了？ <span onclick="toggleForm('login')">返回登入畫面</span>
+                <div class="auth-switch">
+                    已經有帳號了？ <a href="#" onclick="toggleForm('login')">返回登入</a>
                 </div>
             </div>
 
-            <div id="user-status" style="display: none;">
-                <p>歡迎回來，<span id="user-display-email"></span>！您已成功登入會員。</p>
-                <button class="btn-submit" style="background-color: #c0392b; max-width: 150px; margin: 0 auto;" onclick="handleLogout()">登出</button>
+            <div class="auth-container user-welcome-box" id="user-status" style="display: none;">
+                <h2>🎉 歡迎回來！</h2>
+                <p style="margin: 15px 0; font-size: 15px;">尊貴的會員：<span id="user-display-email" style="font-weight: bold; color: #a87c66;"></span></p>
+                <p>您現在可以享有會員專屬的點餐與集點優惠囉！</p>
+                <button class="btn-logout" onclick="handleLogout()">登出帳號</button>
             </div>
+
         </section>
 
     </div>
 
     <script>
+        // --- 甜點菜單資料庫 ---
+        const products = [
+            { id: 1, name: "法式盛夏芒果塔", price: 160, category: "法式塔類", img: "images (2).jpg" },
+            { id: 2, name: "小山園宇治抹茶塔", price: 150, category: "法式塔類", img: "images (3).jpg" },
+            { id: 3, name: "炙燒焦糖檸檬塔", price: 140, category: "法式塔類", img: "800x.jpg" },
+            
+            { id: 4, name: "經典草莓戚風蛋糕", price: 240, category: "招牌蛋糕", img: "images (4).jpg" },
+            { id: 5, name: "比利時濃郁榛果黑巧蛋糕", price: 220, category: "招牌蛋糕", img: "images (5).jpg" },
+            { id: 6, name: "海鹽焦糖巴斯克乳酪蛋糕", price: 180, category: "招牌蛋糕", img: "images (6).jpg" },
+            
+            { id: 7, name: "靜岡抹茶瑪德蓮 (3入)", price: 110, category: "常溫點心", img: "images (7).jpg" },
+            { id: 8, name: "法式經典香草可麗露 (2入)", price: 130, category: "常溫點心", img: "images (8).jpg" }
+        ];
+
+        // --- 核心：獨立分頁切換顯示 ---
+        function showPage(pageId) {
+            const sections = document.querySelectorAll('.page-section');
+            sections.forEach(sec => sec.classList.remove('active'));
+
+            document.getElementById(pageId).classList.add('active');
+
+            document.getElementById('nav-home').classList.remove('active');
+            document.getElementById('nav-order').classList.remove('active');
+            document.getElementById('nav-login').classList.remove('active');
+
+            if (pageId === 'home-section') document.getElementById('nav-home').classList.add('active');
+            if (pageId === 'order-section') document.getElementById('nav-order').classList.add('active');
+            if (pageId === 'login-section') document.getElementById('nav-login').classList.add('active');
+
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        // --- 下拉式選單篩選與動態生成 ---
+        function filterCategory(category) {
+            const titleElement = document.getElementById('menu-title-text');
+            const menuGridBox = document.getElementById('menu-grid-box');
+            
+            if (category === '全部甜點') {
+                titleElement.innerText = "精選甜點菜單";
+            } else {
+                titleElement.innerText = `精選甜點 - ${category}`;
+            }
+
+            const filteredProducts = category === '全部甜點' 
+                ? products 
+                : products.filter(item => item.category === category);
+
+            menuGridBox.innerHTML = '';
+            filteredProducts.forEach(item => {
+                const itemHTML = `
+                    <div class="menu-item">
+                        <img src="${item.img}" alt="${item.name}">
+                        <div class="menu-info">
+                            <span class="menu-category-tag">${item.category}</span>
+                            <div class="menu-title">${item.name}</div>
+                            <div class="menu-price">NT$ ${item.price}</div>
+                            <button class="btn-add" onclick="addToCart('${item.name}', ${item.price})">加入購物車</button>
+                        </div>
+                    </div>
+                `;
+                menuGridBox.innerHTML += itemHTML;
+            });
+        }
+
+        // 網頁初次載入
+        window.onload = function() {
+            filterCategory('全部甜點');
+        };
+
         // --- 購物車功能 ---
         let cart = [];
 
@@ -389,8 +804,8 @@
                 const li = document.createElement('li');
                 li.className = 'cart-item';
                 li.innerHTML = `
-                    <div><strong>${item.name}</strong> (NT$ ${item.price}) x ${item.quantity}</div>
-                    <div>NT$ ${itemTotal} <button onclick="removeFromCart(${index})" style="margin-left:10px; background:none; border:none; color:#c0392b; cursor:pointer;">❌</button></div>
+                    <div><strong>${item.name}</strong><br>(NT$ ${item.price}) x ${item.quantity}</div>
+                    <div>NT$ ${itemTotal} <button onclick="removeFromCart(${index})" style="margin-left:5px; background:none; border:none; color:#c0392b; cursor:pointer;">❌</button></div>
                 `;
                 cartItemsContainer.appendChild(li);
             });
@@ -405,19 +820,15 @@
         }
 
         function checkout() {
-            alert(`訂單已送出！總金額為：NT$ ${document.getElementById('total-amount').innerText}`);
+            alert(`訂單已送出！總金額為：NT$ ${document.getElementById('total-amount').innerText}\n感謝您的支持！`);
             cart = [];
             updateCartUI();
         }
 
-
-        // --- 會員系統功能 (登入、註冊切換) ---
-        
-        // 功能 1：切換顯示「登入」或「註冊」表單
+        // --- 會員系統功能 ---
         function toggleForm(formType) {
             const loginBox = document.getElementById('login-form-box');
             const registerBox = document.getElementById('register-form-box');
-            
             if (formType === 'register') {
                 loginBox.style.display = 'none';
                 registerBox.style.display = 'block';
@@ -427,65 +838,45 @@
             }
         }
 
-        // 功能 2：處理「註冊」邏輯
         function handleRegister(event) {
             event.preventDefault();
-            
             const email = document.getElementById('reg-email').value;
             const password = document.getElementById('reg-password').value;
             const confirm = document.getElementById('reg-confirm').value;
 
-            // 1. 檢查兩次密碼是否一致
             if (password !== confirm) {
                 alert("兩次輸入的密碼不一致，請重新確認！");
                 return;
             }
 
-            // 2. 模擬檢查帳號是否已被註冊
             const existingUser = localStorage.getItem(email);
             if (existingUser) {
                 alert("該電子信箱已經被註冊過囉！");
                 return;
             }
 
-            // 3. 將帳號密碼存入瀏覽器的本地儲存空間 (LocalStorage)
             localStorage.setItem(email, password);
             alert("註冊成功！自動為您跳轉至登入畫面。");
-            
-            // 清空註冊欄位並跳回登入
-            document.getElementById('reg-email').value = '';
-            document.getElementById('reg-password').value = '';
-            document.getElementById('reg-confirm').value = '';
             toggleForm('login');
-
-            // 自動幫登入頁面填入剛剛註冊的 email
             document.getElementById('login-email').value = email;
         }
 
-        // 功能 3：處理「登入」邏輯
         function handleLogin(event) {
             event.preventDefault();
-            
             const email = document.getElementById('login-email').value;
             const password = document.getElementById('login-password').value;
-
-            // 1. 從 LocalStorage 撈取該帳號對應的密碼
             const savedPassword = localStorage.getItem(email);
 
-            // 2. 驗證帳號密碼
             if (savedPassword && savedPassword === password) {
-                // 登入成功
                 document.getElementById('login-form-box').style.display = 'none';
                 document.getElementById('register-form-box').style.display = 'none';
                 document.getElementById('user-status').style.display = 'block';
                 document.getElementById('user-display-email').innerText = email;
             } else {
-                // 登入失敗
                 alert("電子信箱或密碼錯誤，請再試一次！");
             }
         }
 
-        // 功能 4：處理「登出」邏輯
         function handleLogout() {
             document.getElementById('login-form-box').style.display = 'block';
             document.getElementById('user-status').style.display = 'none';

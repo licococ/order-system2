@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>甜蜜時光 Patisserie - 試算表雲端同步系統</title>
+    <title>甜蜜時光 Patisserie - 雙端系統</title>
     <style>
         /* --- 基礎全域樣式 --- */
         * {
@@ -24,7 +24,7 @@
             padding: 20px;
         }
 
-        /* 👑 隱藏式雙端切換工具列 */
+        /* 👑 隱藏式雙端切換工具列（預設隱藏 display: none） */
         .system-switcher {
             display: none; 
             background: #4a3e3d; /* 深咖啡色背景 */
@@ -125,7 +125,7 @@
             animation: starPulse 2s infinite ease-in-out;
         }
         @keyframes starPulse {
-            0 { transform: scale(1); opacity: 0.8; }
+            0% { transform: scale(1); opacity: 0.8; }
             50% { transform: scale(1.2); opacity: 1; filter: drop-shadow(0 0 4px #fff); }
             100% { transform: scale(1); opacity: 0.8; }
         }
@@ -424,7 +424,7 @@
         }
         .btn-checkout:hover { background-color: #c98e71; }
 
-        /* ================= 會員中心與歷史訂單樣式 ================= */
+        /* ================= 会員中心與歷史訂單樣式 ================= */
         .auth-container {
             max-width: 400px;
             margin: 40px auto 20px;
@@ -566,6 +566,7 @@
         </div>
     </div>
 
+
     <div id="user-view">
         <header>
             <div class="nav-container">
@@ -693,10 +694,11 @@
         </div>
     </div>
 
+
     <div id="admin-view">
         <div class="admin-dashboard">
             <div class="admin-header">
-                <div class="admin-title">🧁 甜蜜時光 - Google試算表核心接單後台</div>
+                <div class="admin-title">🧁 甜蜜時光 - 核心後台接單系統</div>
                 <button class="btn-primary" style="background:#7a5844;" onclick="refreshAdminDashboard()">🔄 重新整理訂單</button>
             </div>
 
@@ -716,20 +718,18 @@
             </div>
 
             <div class="admin-orders-section">
-                <h3>📥 即時 Google 試算表連動流水線</h3>
+                <h3>📥 即時顧客訂單流水線</h3>
                 <div id="admin-orders-list-box"></div>
             </div>
         </div>
     </div>
 
+
     <script>
         let currentUser = null;
         let cart = [];
 
-        // 🚨 【已設定】已換成你專屬的 Google Apps Script 網頁應用程式網址
-        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzWQ-gmoxWJqfRdxDZgj1Bjnz4E9XuT6NxkI5gVIBohaCrRMKm9bSacLkjoSH10KARsxw/exec";
-
-        // 預設一組期末 Demo 專用的最高特權後台管理員帳號
+        // 🧠 核心更改：預設全新的管理者通行證
         localStorage.setItem("user_sweet@123", "123");
 
         const products = [
@@ -764,18 +764,12 @@
             }
         }
 
-        // 🌍 從 Google 試算表獲取所有訂單
         function getGlobalOrders() {
-            return fetch(GOOGLE_SCRIPT_URL)
-                .then(res => res.json())
-                .then(data => {
-                    if (!data || data.error) return [];
-                    return data.reverse(); 
-                })
-                .catch(err => {
-                    console.error("試算表讀取失敗:", err);
-                    return [];
-                });
+            return JSON.parse(localStorage.getItem('global_bakery_orders')) || [];
+        }
+
+        function saveGlobalOrders(orders) {
+            localStorage.setItem('global_bakery_orders', JSON.stringify(orders));
         }
 
         function showPage(pageId, scrollToCart = false) {
@@ -881,17 +875,15 @@
             updateCartUI();
         }
 
-        // 🛒 顧客送出訂單 -> 寫入 Google 試算表
         function checkout() {
             if (!currentUser) return;
-
             const totalAmt = parseInt(document.getElementById('total-amount').innerText);
             const orderDetails = cart.map(item => `${item.name} x ${item.quantity}`).join(', ');
             const now = new Date();
             const timeString = `${now.getFullYear()}/${now.getMonth()+1}/${now.getDate()} ${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`;
 
+            const globalOrders = getGlobalOrders();
             const newOrder = {
-                action: "insert",
                 orderId: 'TM-' + (Date.now().toString().slice(-6)),
                 user: currentUser,
                 time: timeString,
@@ -900,19 +892,13 @@
                 status: 'pending'
             };
 
-            fetch(GOOGLE_SCRIPT_URL, {
-                method: 'POST',
-                body: JSON.stringify(newOrder),
-                headers: { 'Content-Type': 'text/plain' }
-            })
-            .then(res => res.json())
-            .then(data => {
-                alert(`🎉 雲端訂單已成功送入 Google 試算表！\n總金額為：NT$ ${totalAmt}`);
-                cart = [];
-                updateCartUI();
-                renderHistoryOrders();
-            })
-            .catch(err => alert("網路連線失敗，無法送至雲端。"));
+            globalOrders.unshift(newOrder);
+            saveGlobalOrders(globalOrders);
+
+            alert(`🎉 訂單已成功送出！\n總金額為：NT$ ${totalAmt}\n店家會立刻開始為您排單製作！`);
+            cart = [];
+            updateCartUI();
+            renderHistoryOrders();
         }
 
         function toggleForm(type) {
@@ -933,6 +919,7 @@
             document.getElementById('login-email').value = email;
         }
 
+        // 🧠 會員登入核心控制器（已更新為判斷 sweet@123）
         function handleLogin(e) {
             e.preventDefault();
             const email = document.getElementById('login-email').value;
@@ -945,10 +932,10 @@
                 document.getElementById('user-display-email').innerText = email;
                 document.getElementById('history-box').style.display = 'block';
                 
-                // 💡 特權帳號登入開關
+                // 🔐 核心防線：精準識別全新管理者帳號 sweet@123
                 if (email === 'sweet@123') {
-                    document.getElementById('admin-switcher-bar').style.display = 'flex'; 
-                    document.getElementById('admin-badge-notice').style.display = 'block'; 
+                    document.getElementById('admin-switcher-bar').style.display = 'flex'; // 解鎖切換列
+                    document.getElementById('admin-badge-notice').style.display = 'block'; // 顯現管理提示
                 } else {
                     document.getElementById('admin-switcher-bar').style.display = 'none';
                     document.getElementById('admin-badge-notice').style.display = 'none';
@@ -966,22 +953,17 @@
             document.getElementById('user-status').style.display = 'none';
             document.getElementById('history-box').style.display = 'none';
             
+            // 🔒 登出時重置狀態，隱藏控制列並退回普通顧客前台
             document.getElementById('admin-switcher-bar').style.display = 'none';
             switchSystem('user'); 
         }
 
-        // 📱 顧客端歷史訂單
-        async function renderHistoryOrders() {
+        function renderHistoryOrders() {
             const container = document.getElementById('history-list-content');
             container.innerHTML = '';
             if (!currentUser) return;
 
-            container.innerHTML = '<div class="no-history-msg">正在從 Google 試算表載入訂單...</div>';
-            
-            const allOrders = await getGlobalOrders();
-            const myOrders = allOrders.filter(o => o.user === currentUser);
-            
-            container.innerHTML = '';
+            const myOrders = getGlobalOrders().filter(o => o.user === currentUser);
             if (myOrders.length === 0) {
                 container.innerHTML = '<div class="no-history-msg">目前尚無任何消費紀錄。</div>';
                 return;
@@ -1008,25 +990,22 @@
             });
         }
 
-        // 🏪 店家後台管理
-        async function refreshAdminDashboard() {
-            const listContainer = document.getElementById('admin-orders-list-box');
-            listContainer.innerHTML = '<div class="no-history-msg" style="text-align:center;">正在連線至 Google 雲端總部...</div>';
-
-            const orders = await getGlobalOrders();
+        function refreshAdminDashboard() {
+            const orders = getGlobalOrders();
             
             const newCount = orders.filter(o => o.status === 'pending').length;
             const cookingCount = orders.filter(o => o.status === 'cooking').length;
-            const revenue = orders.filter(o => o.status === 'completed').reduce((sum, o) => sum + parseInt(o.total || 0), 0);
+            const revenue = orders.filter(o => o.status === 'completed').reduce((sum, o) => sum + o.total, 0);
 
             document.getElementById('stat-new-orders').innerText = `${newCount} 筆`;
             document.getElementById('stat-cooking-orders').innerText = `${cookingCount} 筆`;
             document.getElementById('stat-total-revenue').innerText = revenue;
 
+            const listContainer = document.getElementById('admin-orders-list-box');
             listContainer.innerHTML = '';
 
             if (orders.length === 0) {
-                listContainer.innerHTML = '<div class="no-history-msg" style="text-align:center;">🏭 目前雲端無任何顧客下單。</div>';
+                listContainer.innerHTML = '<div class="no-history-msg" style="text-align:center;">🏭 目前全台灣沒有任何顧客下單喔。</div>';
                 return;
             }
 
@@ -1064,26 +1043,15 @@
             });
         }
 
-        // ⚙️ 修改訂單狀態
         function updateOrderStatus(orderId, newStatus) {
-            if(!orderId) return;
+            let orders = getGlobalOrders();
+            const index = orders.findIndex(o => o.orderId === orderId);
             
-            const updateData = {
-                action: "updateStatus",
-                orderId: orderId,
-                status: newStatus
-            };
-
-            fetch(GOOGLE_SCRIPT_URL, {
-                method: 'POST',
-                body: JSON.stringify(updateData),
-                headers: { 'Content-Type': 'text/plain' }
-            })
-            .then(res => res.json())
-            .then(data => {
+            if (index !== -1) {
+                orders[index].status = newStatus;
+                saveGlobalOrders(orders);
                 refreshAdminDashboard();
-            })
-            .catch(err => alert("Google 試算表狀態更新失敗！"));
+            }
         }
     </script>
 </body>

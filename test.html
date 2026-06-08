@@ -493,7 +493,7 @@
                     </div>
                 </li>
                 <li><a id="nav-login" onclick="showPage('login-section')">會員中心</a></li>
-                <li><a onclick="showPage('order-section')" style="color: #b57a5f; font-weight: bold;">🛒 購物車 (<span id="cart-count">0</span>)</a></li>
+                <li><a onclick="showPage('order-section', true)" style="color: #b57a5f; font-weight: bold;">🛒 購物車 (<span id="cart-count">0</span>)</a></li>
             </ul>
         </div>
     </header>
@@ -560,7 +560,7 @@
                     <div class="menu-grid" id="menu-grid-box"></div>
                 </div>
 
-                <div class="cart-box">
+                <div class="cart-box" id="cart-anchor">
                     <h3>🛒 我的購物車</h3>
                     <div class="empty-cart-msg" id="empty-cart-msg">購物車目前是空的。</div>
                     <ul class="cart-items-list" id="cart-items"></ul>
@@ -651,8 +651,8 @@
             { id: 8, name: "法式經典香草可麗露 (2入)", price: 130, category: "常溫點心", img: "images (8).jpg" }
         ];
 
-        // --- 核心：獨立分頁切換顯示 ---
-        function showPage(pageId) {
+        // --- 核心：獨立分頁切換顯示 (已修復手機版購物車不跳轉問題) ---
+        function showPage(pageId, scrollToCart = false) {
             const sections = document.querySelectorAll('.page-section');
             sections.forEach(sec => sec.classList.remove('active'));
 
@@ -666,7 +666,26 @@
             if (pageId === 'order-section') document.getElementById('nav-order').classList.add('active');
             if (pageId === 'login-section') document.getElementById('nav-login').classList.add('active');
 
-            window.scrollTo({top: 0, behavior: 'smooth'});
+            // 修正手機版購物車滾動邏輯
+            if (scrollToCart) {
+                // 如果是按了購物車，且目前視窗寬度小於或等於 950px (進入手機/平板排版)
+                if (window.innerWidth <= 950) {
+                    setTimeout(() => {
+                        const cartAnchor = document.getElementById('cart-anchor');
+                        if (cartAnchor) {
+                            // 考量到頂部 sticky 導覽列寬度，多留個 100px 避免被蓋到
+                            const topOffset = cartAnchor.getBoundingClientRect().top + window.pageYOffset - 100;
+                            window.scrollTo({top: topOffset, behavior: 'smooth'});
+                        }
+                    }, 100); // 延遲 100ms 確保頁面元件渲染切換完成
+                } else {
+                    // 電腦版直接滾到頂端即可
+                    window.scrollTo({top: 0, behavior: 'smooth'});
+                }
+            } else {
+                // 一般切換分頁直接滾到頂
+                window.scrollTo({top: 0, behavior: 'smooth'});
+            }
         }
 
         // --- 下拉式選單篩選與動態生成 ---

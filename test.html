@@ -16,11 +16,80 @@
             background-color: #fcf8f5;
             color: #4a3e3d;
             line-height: 1.7;
+            position: relative;
         }
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
+        }
+
+        /* ✨ 超質感多媒體期末專題 互動式浮動標籤樣式 ✨ */
+        .project-badge {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background-color: rgba(122, 88, 68, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            color: #ffffff;
+            padding: 12px 20px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            box-shadow: 0 8px 32px 0 rgba(122, 88, 68, 0.15);
+            z-index: 9999;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 4px;
+            max-width: 140px;
+            overflow: hidden;
+        }
+
+        /* 內部的成員清單平時隱藏且收合 */
+        .project-badge .members-list {
+            max-height: 0;
+            opacity: 0;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 400;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            white-space: nowrap; /* 確保絕對不會換行 */
+            margin-top: 0;
+        }
+
+        /* 當滑鼠移上去時，優雅向左展開變大，顯現單行組員 */
+        .project-badge:hover {
+            max-width: 550px; /* 加大寬度以容納完整單行名字 */
+            border-radius: 16px;
+            background-color: rgba(122, 88, 68, 0.95);
+            box-shadow: 0 12px 40px 0 rgba(122, 88, 68, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .project-badge:hover .members-list {
+            max-height: 50px;
+            opacity: 1;
+            margin-top: 6px;
+        }
+
+        /* 小星星呼吸燈特效 */
+        .badge-title::before {
+            content: '✨';
+            margin-right: 6px;
+            display: inline-block;
+            animation: starPulse 2s infinite ease-in-out;
+        }
+
+        @keyframes starPulse {
+            0% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.2); opacity: 1; filter: drop-shadow(0 0 4px #fff); }
+            100% { transform: scale(1); opacity: 0.8; }
         }
 
         /* --- 導覽列樣式 --- */
@@ -116,9 +185,8 @@
         }
 
         /* ================= 高級質感首頁樣式 ================= */
-        /* 1. 質感大圖橫幅 */
         .hero-section {
-            background: linear-gradient(135deg, #f3e6df 0%, #eade7a54 100%), url('images (4).jpg');
+            background: linear-gradient(135deg, #f3e6df 0%, rgba(234, 222, 122, 0.33) 100%), url('images (4).jpg');
             background-size: cover;
             background-position: center;
             border-radius: 20px;
@@ -181,20 +249,11 @@
             box-shadow: 0 15px 30px rgba(0,0,0,0.1);
         }
         @media (max-width: 850px) {
-            .hero-section {
-                flex-direction: column;
-                padding: 40px 20px;
-                text-align: center;
-            }
-            .hero-featured-img {
-                display: none;
-            }
-            .hero-content {
-                max-width: 100%;
-            }
+            .hero-section { flex-direction: column; padding: 40px 20px; text-align: center; }
+            .hero-featured-img { display: none; }
+            .hero-content { max-width: 100%; }
         }
 
-        /* 2. 核心特點區 */
         .section-title {
             text-align: center;
             font-size: 26px;
@@ -231,22 +290,10 @@
             transform: translateY(-5px);
             box-shadow: 0 12px 30px rgba(142, 108, 88, 0.08);
         }
-        .feature-icon {
-            font-size: 32px;
-            margin-bottom: 15px;
-            display: inline-block;
-        }
-        .feature-card h3 {
-            font-size: 18px;
-            color: #7a5844;
-            margin-bottom: 12px;
-        }
-        .feature-card p {
-            font-size: 14px;
-            color: #8c7e7c;
-        }
+        .feature-icon { font-size: 32px; margin-bottom: 15px; display: inline-block; }
+        .feature-card h3 { font-size: 18px; color: #7a5844; margin-bottom: 12px; }
+        .feature-card p { font-size: 14px; color: #8c7e7c; }
 
-        /* 3. 主廚推薦特區 */
         .chef-recommend-box {
             background-color: #fff;
             padding: 40px;
@@ -259,10 +306,7 @@
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 20px;
         }
-        .recommend-item {
-            text-align: center;
-            cursor: pointer;
-        }
+        .recommend-item { text-align: center; cursor: pointer; }
         .recommend-item img {
             width: 100%;
             height: 180px;
@@ -271,20 +315,9 @@
             margin-bottom: 12px;
             transition: transform 0.4s ease;
         }
-        .recommend-item:hover img {
-            transform: scale(1.03);
-        }
-        .recommend-name {
-            font-size: 15px;
-            font-weight: bold;
-            color: #4a3e3d;
-        }
-        .recommend-price {
-            font-size: 14px;
-            color: #c98e71;
-            font-weight: bold;
-            margin-top: 4px;
-        }
+        .recommend-item:hover img { transform: scale(1.03); }
+        .recommend-name { font-size: 15px; font-weight: bold; color: #4a3e3d; }
+        .recommend-price { font-size: 14px; color: #c98e71; font-weight: bold; margin-top: 4px; }
 
         /* ================= 點餐頁與購物車版面配置 ================= */
         .order-layout {
@@ -294,9 +327,7 @@
             margin-top: 10px;
         }
         @media (max-width: 950px) {
-            .order-layout {
-                grid-template-columns: 1fr;
-            }
+            .order-layout { grid-template-columns: 1fr; }
         }
         .menu-title {
             font-size: 26px;
@@ -306,18 +337,13 @@
             padding-left: 12px;
             letter-spacing: 1px;
         }
-        .menu-subtitle {
-            font-size: 14px;
-            color: #8c7e7c;
-            margin-bottom: 30px;
-        }
+        .menu-subtitle { font-size: 14px; color: #8c7e7c; margin-bottom: 30px; }
         .menu-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
             gap: 25px;
         }
 
-        /* 商品卡片樣式 */
         .menu-item {
             background: #fff;
             border-radius: 14px;
@@ -328,22 +354,9 @@
             flex-direction: column;
             border: 1px solid rgba(142, 108, 88, 0.02);
         }
-        .menu-item:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 10px 25px rgba(142, 108, 88, 0.08);
-        }
-        .menu-item img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            background-color: #f5eae4;
-        }
-        .menu-info {
-            padding: 18px;
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1;
-        }
+        .menu-item:hover { transform: translateY(-6px); box-shadow: 0 10px 25px rgba(142, 108, 88, 0.08); }
+        .menu-item img { width: 100%; height: 200px; object-fit: cover; background-color: #f5eae4; }
+        .menu-info { padding: 18px; display: flex; flex-direction: column; flex-grow: 1; }
         .menu-category-tag {
             align-self: flex-start;
             background-color: #f7ede8;
@@ -354,21 +367,8 @@
             margin-bottom: 10px;
             font-weight: 600;
         }
-        .menu-item .menu-title {
-            font-size: 16px;
-            font-weight: bold;
-            color: #4a3e3d;
-            margin-bottom: 8px;
-            border: none;
-            padding-left: 0;
-        }
-        .menu-price {
-            font-size: 16px;
-            color: #b57a5f;
-            font-weight: 700;
-            margin-bottom: 15px;
-            margin-top: auto;
-        }
+        .menu-item .menu-title { font-size: 16px; font-weight: bold; color: #4a3e3d; margin-bottom: 8px; border: none; padding-left: 0; }
+        .menu-price { font-size: 16px; color: #b57a5f; font-weight: 700; margin-bottom: 15px; margin-top: auto; }
         .btn-add {
             width: 100%;
             background-color: #caa08c;
@@ -380,9 +380,7 @@
             font-weight: bold;
             transition: background 0.3s;
         }
-        .btn-add:hover {
-            background-color: #b5836c;
-        }
+        .btn-add:hover { background-color: #b5836c; }
 
         /* 側邊購物車樣式 */
         .cart-box {
@@ -395,45 +393,12 @@
             top: 100px;
             border: 1px solid rgba(142, 108, 88, 0.03);
         }
-        .cart-box h3 {
-            font-size: 18px;
-            margin-bottom: 15px;
-            padding-bottom: 12px;
-            border-bottom: 2px solid #f7ede8;
-            color: #4a3e3d;
-        }
-        .cart-items-list {
-            list-style: none;
-            max-height: 280px;
-            overflow-y: auto;
-            margin-bottom: 15px;
-        }
-        .cart-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 13px;
-            padding: 10px 0;
-            border-bottom: 1px dashed #f5eae4;
-        }
-        .empty-cart-msg {
-            color: #a39592;
-            text-align: center;
-            padding: 25px 0;
-            font-size: 14px;
-        }
-        .cart-total-box {
-            border-top: 2px solid #f7ede8;
-            padding-top: 15px;
-        }
-        .total-row {
-            display: flex;
-            justify-content: space-between;
-            font-size: 16px;
-            font-weight: bold;
-            margin-bottom: 15px;
-            color: #4a3e3d;
-        }
+        .cart-box h3 { font-size: 18px; margin-bottom: 15px; padding-bottom: 12px; border-bottom: 2px solid #f7ede8; color: #4a3e3d; }
+        .cart-items-list { list-style: none; max-height: 280px; overflow-y: auto; margin-bottom: 15px; }
+        .cart-item { display: flex; justify-content: space-between; align-items: center; font-size: 13px; padding: 10px 0; border-bottom: 1px dashed #f5eae4; }
+        .empty-cart-msg { color: #a39592; text-align: center; padding: 25px 0; font-size: 14px; }
+        .cart-total-box { border-top: 2px solid #f7ede8; padding-top: 15px; }
+        .total-row { display: flex; justify-content: space-between; font-size: 16px; font-weight: bold; margin-bottom: 15px; color: #4a3e3d; }
         .btn-checkout {
             width: 100%;
             background-color: #7a5844;
@@ -446,97 +411,72 @@
             font-size: 14px;
             transition: background 0.3s;
         }
-        .btn-checkout:hover {
-            background-color: #c98e71;
-        }
+        .btn-checkout:hover { background-color: #c98e71; }
 
-        /* --- 會員中心系統樣式 --- */
+        /* ================= 會員中心與歷史訂單樣式 ================= */
         .auth-container {
             max-width: 400px;
-            margin: 40px auto;
+            margin: 40px auto 20px;
             background: white;
             padding: 35px;
             border-radius: 16px;
             box-shadow: 0 5px 25px rgba(142, 108, 88, 0.06);
             border: 1px solid rgba(142, 108, 88, 0.02);
         }
-        .auth-container h2 {
-            text-align: center;
-            margin-bottom: 25px;
-            color: #4a3e3d;
-            letter-spacing: 1px;
-        }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-size: 14px;
-            font-weight: 500;
-            color: #6e5d5b;
-        }
+        .auth-container h2 { text-align: center; margin-bottom: 25px; color: #4a3e3d; letter-spacing: 1px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-size: 14px; font-weight: 500; color: #6e5d5b; }
         .form-group input {
-            width: 100%;
-            padding: 11px;
-            border: 1px solid #e5dbd5;
-            border-radius: 8px;
-            font-size: 14px;
-            background-color: #fdfcfb;
-            transition: border-color 0.3s;
+            width: 100%; padding: 11px; border: 1px solid #e5dbd5; border-radius: 8px; font-size: 14px; background-color: #fdfcfb; transition: border-color 0.3s;
         }
-        .form-group input:focus {
-            outline: none;
-            border-color: #c98e71;
-            background-color: #fff;
-        }
+        .form-group input:focus { outline: none; border-color: #c98e71; background-color: #fff; }
         .btn-auth {
-            width: 100%;
-            padding: 12px;
-            background-color: #caa08c;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 15px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background 0.3s;
+            width: 100%; padding: 12px; background-color: #caa08c; color: white; border: none; border-radius: 8px; font-size: 15px; font-weight: bold; cursor: pointer; transition: background 0.3s;
         }
-        .btn-auth:hover {
-            background-color: #b5836c;
-        }
-        .auth-switch {
-            text-align: center;
-            margin-top: 18px;
-            font-size: 13px;
-            color: #8c7e7c;
-        }
-        .auth-switch a {
-            color: #b57a5f;
-            text-decoration: none;
-            font-weight: bold;
-        }
-        .user-welcome-box {
-            text-align: center;
-            padding: 40px 20px;
-        }
+        .btn-auth:hover { background-color: #b5836c; }
+        .auth-switch { text-align: center; margin-top: 18px; font-size: 13px; color: #8c7e7c; }
+        .auth-switch a { color: #b57a5f; text-decoration: none; font-weight: bold; }
+        .user-welcome-box { text-align: center; padding: 40px 20px; }
         .btn-logout {
-            background-color: #d9534f;
-            color: white;
-            border: none;
-            padding: 9px 18px;
-            border-radius: 6px;
-            cursor: pointer;
-            margin-top: 20px;
-            font-weight: bold;
-            transition: background 0.3s;
+            background-color: #d9534f; color: white; border: none; padding: 9px 18px; border-radius: 6px; cursor: pointer; margin-top: 20px; font-weight: bold; transition: background 0.3s;
         }
-        .btn-logout:hover {
-            background-color: #c9302c;
+        .btn-logout:hover { background-color: #c9302c; }
+
+        .history-container {
+            max-width: 700px;
+            margin: 30px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 5px 25px rgba(142, 108, 88, 0.04);
+            border: 1px solid rgba(142, 108, 88, 0.02);
         }
+        .history-container h3 {
+            font-size: 20px; color: #4a3e3d; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #f7ede8; text-align: center;
+        }
+        .order-card {
+            background: #fdfcfb;
+            border: 1px solid #f5eae4;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        .order-card-header {
+            display: flex; justify-content: space-between; font-size: 13px; color: #8c7e7c; border-bottom: 1px solid #f5eae4; padding-bottom: 8px; margin-bottom: 10px;
+        }
+        .order-card-body { font-size: 14px; color: #4a3e3d; margin-bottom: 8px; }
+        .order-card-total { text-align: right; font-weight: bold; color: #b57a5f; font-size: 15px; }
+        .no-history-msg { text-align: center; color: #a39592; padding: 30px 0; font-size: 14px; }
     </style>
 </head>
 <body>
+
+    <div id="floating-badge" class="project-badge">
+        <div class="badge-title">多媒體期末作業</div>
+        <div class="members-list">
+            成員：梁宇嫻 · 李冠萱 · 羅聖威 · 陳品勳 · 劉昕燁 · 陳君豪
+        </div>
+    </div>
 
     <header>
         <div class="nav-container">
@@ -617,16 +557,13 @@
                 <div class="menu-products-column">
                     <h2 class="menu-title" id="menu-title-text">精選甜點菜單</h2>
                     <p class="menu-subtitle">點擊下方按鈕即可直接加入購物車！</p>
-                    
                     <div class="menu-grid" id="menu-grid-box"></div>
                 </div>
 
                 <div class="cart-box">
                     <h3>🛒 我的購物車</h3>
                     <div class="empty-cart-msg" id="empty-cart-msg">購物車目前是空的。</div>
-                    
                     <ul class="cart-items-list" id="cart-items"></ul>
-                    
                     <div class="cart-total-box" id="cart-total-box" style="display: none;">
                         <div class="total-row">
                             <span>總金額：</span>
@@ -688,11 +625,18 @@
                 <button class="btn-logout" onclick="handleLogout()">登出帳號</button>
             </div>
 
+            <div class="history-container" id="history-box" style="display: none;">
+                <h3>📦 我的歷史訂單</h3>
+                <div id="history-list-content"></div>
+            </div>
+
         </section>
 
     </div>
 
     <script>
+        let currentUser = null;
+
         // --- 甜點菜單資料庫 ---
         const products = [
             { id: 1, name: "法式盛夏芒果塔", price: 160, category: "法式塔類", img: "images (2).jpg" },
@@ -757,7 +701,6 @@
             });
         }
 
-        // 網頁初次載入
         window.onload = function() {
             filterCategory('全部甜點');
         };
@@ -766,6 +709,12 @@
         let cart = [];
 
         function addToCart(name, price) {
+            if (!currentUser) {
+                alert("親愛的顧客，請先登入會員才能開始挑選美味甜點喔！");
+                showPage('login-section');
+                return;
+            }
+
             const existingItem = cart.find(item => item.name === name);
             if (existingItem) {
                 existingItem.quantity += 1;
@@ -820,9 +769,32 @@
         }
 
         function checkout() {
-            alert(`訂單已送出！總金額為：NT$ ${document.getElementById('total-amount').innerText}\n感謝您的支持！`);
+            if (!currentUser) {
+                alert("您的登入狀態已過期，請重新登入！");
+                showPage('login-section');
+                return;
+            }
+
+            const totalAmt = document.getElementById('total-amount').innerText;
+            const orderDetails = cart.map(item => `${item.name} x ${item.quantity}`).join(', ');
+            const now = new Date();
+            const timeString = `${now.getFullYear()}/${now.getMonth()+1}/${now.getDate()} ${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`;
+
+            const newOrder = {
+                time: timeString,
+                items: orderDetails,
+                total: totalAmt
+            };
+
+            let userOrders = JSON.parse(localStorage.getItem(`orders_${currentUser}`)) || [];
+            userOrders.unshift(newOrder);
+            localStorage.setItem(`orders_${currentUser}`, JSON.stringify(userOrders));
+
+            alert(`🎉 訂單已成功送出！\n總金額為：NT$ ${totalAmt}\n感謝您的支持！可在會員中心查看此訂單紀錄。`);
+            
             cart = [];
             updateCartUI();
+            renderHistoryOrders();
         }
 
         // --- 會員系統功能 ---
@@ -849,13 +821,13 @@
                 return;
             }
 
-            const existingUser = localStorage.getItem(email);
+            const existingUser = localStorage.getItem(`user_${email}`);
             if (existingUser) {
                 alert("該電子信箱已經被註冊過囉！");
                 return;
             }
 
-            localStorage.setItem(email, password);
+            localStorage.setItem(`user_${email}`, password);
             alert("註冊成功！自動為您跳轉至登入畫面。");
             toggleForm('login');
             document.getElementById('login-email').value = email;
@@ -865,23 +837,66 @@
             event.preventDefault();
             const email = document.getElementById('login-email').value;
             const password = document.getElementById('login-password').value;
-            const savedPassword = localStorage.getItem(email);
+            const savedPassword = localStorage.getItem(`user_${email}`);
 
             if (savedPassword && savedPassword === password) {
+                currentUser = email;
+                
                 document.getElementById('login-form-box').style.display = 'none';
                 document.getElementById('register-form-box').style.display = 'none';
                 document.getElementById('user-status').style.display = 'block';
                 document.getElementById('user-display-email').innerText = email;
+                
+                document.getElementById('history-box').style.display = 'block';
+                renderHistoryOrders();
             } else {
                 alert("電子信箱或密碼錯誤，請再試一次！");
             }
         }
 
         function handleLogout() {
+            currentUser = null;
+            cart = [];
+            updateCartUI();
+
             document.getElementById('login-form-box').style.display = 'block';
             document.getElementById('user-status').style.display = 'none';
+            document.getElementById('history-box').style.display = 'none';
+
             document.getElementById('login-email').value = '';
             document.getElementById('login-password').value = '';
+        }
+
+        function renderHistoryOrders() {
+            const container = document.getElementById('history-list-content');
+            container.innerHTML = '';
+
+            if (!currentUser) return;
+
+            const userOrders = JSON.parse(localStorage.getItem(`orders_${currentUser}`)) || [];
+
+            if (userOrders.length === 0) {
+                container.innerHTML = '<div class="no-history-msg">目前尚無任何消費紀錄。</div>';
+                return;
+            }
+
+            userOrders.forEach((order, index) => {
+                const card = document.createElement('div');
+                card.className = 'order-card';
+                card.innerHTML = `
+                    <div class="order-card-header">
+                        <span>單號：#TM-${userOrders.length - index}</span>
+                        <span>購買時間：${order.time}</span>
+                    </div>
+                    <div class="order-card-body">
+                        <strong>品項：</strong>${order.items}
+                    </div>
+                    <div class="order-card-total">
+                        實付總額：NT$ ${order.total}
+                    </div>
+                `;
+                container.appendChild(card);
+            });
         }
     </script>
 </body>

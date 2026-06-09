@@ -57,23 +57,32 @@
 
             <section id="login-section" class="page-section">
                 <div id="login-form-box" class="auth-container">
-                    <h2>會員登入</h2>
+                    <h2>會員登入 / 註冊</h2>
                     <form onsubmit="handleLogin(event)">
-                        <div class="form-group"><label>帳號 (Email)</label><input type="text" id="login-email" required></div>
-                        <div class="form-group"><label>密碼</label><input type="password" id="login-password" required></div>
+                        <div class="form-group">
+                            <label>帳號 (Email)</label>
+                            <input type="text" id="login-email" required>
+                        </div>
+                        <div class="form-group">
+                            <label>密碼</label>
+                            <input type="password" id="login-password" required>
+                        </div>
                         <button type="submit" class="btn-auth">登入</button>
+                        <button type="button" class="btn-auth" style="background:#7a5844; margin-top:10px;" onclick="handleRegister(event)">註冊新帳號</button>
                     </form>
                 </div>
                 <div id="user-status" style="display:none;" class="user-welcome-box">
                     <h3>會員您好：<span id="user-display-email"></span></h3>
                     <button class="btn-logout" onclick="handleLogout()">登出</button>
-                    <div id="history-list-content" class="history-container"></div>
+                    <div id="history-list-content" class="history-container">
+                        <h4>歷史消費紀錄</h4>
+                        </div>
                 </div>
             </section>
         </main>
     </div>
 
-    <div id="admin-view">
+    <div id="admin-view" style="display: none;">
         <div class="admin-dashboard">
             <h2 class="admin-title">店家訂單管理系統</h2>
             <div class="admin-stats-grid">

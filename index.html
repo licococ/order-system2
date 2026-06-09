@@ -4,101 +4,180 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>甜蜜時光 Patisserie - 雙端系統</title>
+    
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-    <div class="system-switcher" id="admin-switcher-bar" style="display: none;">
-        <span>⚙️ 核心系統切換：</span>
+    <div class="system-switcher" id="admin-switcher-bar">
+        <span>⚙️ 核心特權帳號登入：專題雙端切換</span>
         <button id="switch-user-btn" class="active" onclick="switchSystem('user')">📱 顧客前台下單端</button>
         <button id="switch-admin-btn" onclick="switchSystem('admin')">🏪 店家後台接單端</button>
+    </div>
+
+    <div id="floating-badge" class="project-badge">
+        <div class="badge-title">多媒體期末作業</div>
+        <div class="members-list">
+            成員：梁宇嫻 · 李冠萱 · 羅聖威 · 陳品勳 · 劉昕燁 · 陳君豪
+        </div>
     </div>
 
     <div id="user-view">
         <header>
             <div class="nav-container">
-                <div class="logo">甜蜜時光 Patisserie</div>
+                <a onclick="showPage('home-section')" class="logo">🍰 甜蜜時光 Patisserie</a>
                 <ul class="nav-menu">
-                    <li><a id="nav-home" class="active" onclick="showPage('home-section')">首頁</a></li>
-                    <li><a id="nav-order" onclick="showPage('order-section')">開始點餐</a></li>
-                    <li><a id="nav-login" onclick="showPage('login-section')">會員登入</a></li>
+                    <li><a id="nav-home" onclick="showPage('home-section')" class="active">關於我們</a></li>
+                    <li class="dropdown">
+                        <a id="nav-order" onclick="showPage('order-section')">線上點餐 ▾</a>
+                        <div class="dropdown-content">
+                            <a onclick="showPage('order-section'); filterCategory('全部甜點')">全部甜點</a>
+                            <a onclick="showPage('order-section'); filterCategory('法式塔類')">法式塔類</a>
+                            <a onclick="showPage('order-section'); filterCategory('招牌蛋糕')">招牌蛋糕</a>
+                            <a onclick="showPage('order-section'); filterCategory('常溫點心')">常溫點心</a>
+                        </div>
+                    </li>
+                    <li><a id="nav-login" onclick="showPage('login-section')">會員中心</a></li>
+                    <li><a onclick="showPage('order-section', true)" style="color: #b57a5f; font-weight: bold;">🛒 購物車 (<span id="cart-count">0</span>)</a></li>
                 </ul>
             </div>
         </header>
 
-        <main class="container">
+        <div class="container">
             <section id="home-section" class="page-section active">
                 <div class="hero-section">
                     <div class="hero-content">
-                        <h1>品味法式經典</h1>
-                        <p>嚴選頂級食材，匠心手作每一份甜點。為您的午後帶來最溫暖的甜蜜滋味。</p>
-                        <button class="btn-primary" onclick="showPage('order-section')">立即點餐</button>
+                        <h1>尋找專屬您的<br>午後法式浪漫</h1>
+                        <p>每一道手工甜點，都是精選頂級食材與職人精神的完美揉合。減糖配方設計，為您捎來最純粹、無負擔的幸福滋味。</p>
+                        <button class="btn-primary" onclick="showPage('order-section'); filterCategory('全部甜點')">探索精選甜點</button>
+                    </div>
+                    <img src="images (4).jpg" class="hero-featured-img" alt="主打草莓戚風蛋糕">
+                </div>
+
+                <h2 class="section-title">我們的烘焙堅持</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <span class="feature-icon">✨</span>
+                        <h3>嚴選頂級食材</h3>
+                        <p>進口小山園宇治抹茶、比利時醇黑巧克力，絕不妥協的嚴苛標準。</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feature-icon">👩‍🍳</span>
+                        <h3>每日新鮮手作</h3>
+                        <p>職人每日凌晨現製烘焙，捕捉甜點出爐時最完美的飽滿風味。</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feature-icon">🌱</span>
+                        <h3>輕盈減糖配方</h3>
+                        <p>精心調整黃金甜度比例，保留濃郁香氣，讓享受美味更無負擔。</p>
                     </div>
                 </div>
             </section>
 
             <section id="order-section" class="page-section">
                 <div class="order-layout">
-                    <div>
-                        <h2 id="menu-title-text" class="menu-title">精選甜點菜單</h2>
-                        <div id="menu-grid-box" class="menu-grid"></div>
+                    <div class="menu-products-column">
+                        <h2 class="menu-title" id="menu-title-text">精選甜點菜單</h2>
+                        <p class="menu-subtitle">點擊下方按鈕即可直接加入購物車！</p>
+                        <div class="menu-grid" id="menu-grid-box"></div>
                     </div>
-                    <div id="cart-anchor" class="cart-box">
-                        <h3>購物車</h3>
-                        <div id="empty-cart-msg" class="empty-cart-msg">購物車目前空空的喔！</div>
-                        <ul id="cart-items" class="cart-items-list"></ul>
-                        <div id="cart-total-box" style="display:none;">
-                            <div class="total-row">總計: NT$ <span id="total-amount">0</span></div>
-                            <button class="btn-checkout" onclick="checkout()">確認結帳</button>
+
+                    <div class="cart-box" id="cart-anchor">
+                        <h3>🛒 我的購物車</h3>
+                        <div class="empty-cart-msg" id="empty-cart-msg">購物車目前是空的。</div>
+                        <ul class="cart-items-list" id="cart-items"></ul>
+                        <div class="cart-total-box" id="cart-total-box" style="display: none;">
+                            <div class="total-row">
+                                <span>總金額：</span>
+                                <span>NT$ <span id="total-amount">0</span></span>
+                            </div>
+                            <button class="btn-checkout" onclick="checkout()">確認送出訂單</button>
                         </div>
                     </div>
                 </div>
             </section>
 
             <section id="login-section" class="page-section">
-                <div id="login-form-box" class="auth-container">
-                    <h2>會員登入 / 註冊</h2>
+                <div class="auth-container" id="login-form-box">
+                    <h2>會員登入</h2>
                     <form onsubmit="handleLogin(event)">
                         <div class="form-group">
-                            <label>帳號 (Email)</label>
-                            <input type="text" id="login-email" required>
+                            <label for="login-email">電子信箱 (Email)</label>
+                            <input type="email" id="login-email" required placeholder="example@mail.com">
                         </div>
                         <div class="form-group">
-                            <label>密碼</label>
-                            <input type="password" id="login-password" required>
+                            <label for="login-password">密碼</label>
+                            <input type="password" id="login-password" required placeholder="請輸入密碼">
                         </div>
                         <button type="submit" class="btn-auth">登入</button>
-                        <button type="button" class="btn-auth" style="background:#7a5844; margin-top:10px;" onclick="handleRegister(event)">註冊新帳號</button>
                     </form>
+                    <div class="auth-switch">還沒有帳號嗎？ <a href="#" onclick="toggleForm('register')">立即註冊</a></div>
                 </div>
-                <div id="user-status" style="display:none;" class="user-welcome-box">
-                    <h3>會員您好：<span id="user-display-email"></span></h3>
-                    <button class="btn-logout" onclick="handleLogout()">登出</button>
-                    <div id="history-list-content" class="history-container">
-                        <h4>歷史消費紀錄</h4>
+
+                <div class="auth-container" id="register-form-box" style="display: none;">
+                    <h2>加入會員</h2>
+                    <form onsubmit="handleRegister(event)">
+                        <div class="form-group">
+                            <label for="reg-email">電子信箱 (Email)</label>
+                            <input type="email" id="reg-email" required placeholder="example@mail.com">
                         </div>
+                        <div class="form-group">
+                            <label for="reg-password">設定密碼</label>
+                            <input type="password" id="reg-password" required placeholder="請輸入密碼">
+                        </div>
+                        <div class="form-group">
+                            <label for="reg-confirm">確認密碼</label>
+                            <input type="password" id="reg-confirm" required placeholder="請再次輸入密碼">
+                        </div>
+                        <button type="submit" class="btn-auth">確認註冊</button>
+                    </form>
+                    <div class="auth-switch">已經有帳號了？ <a href="#" onclick="toggleForm('login')">返回登入</a></div>
+                </div>
+
+                <div class="auth-container user-welcome-box" id="user-status" style="display: none;">
+                    <h2>🎉 歡迎回來！</h2>
+                    <p style="margin: 15px 0; font-size: 15px;">使用者帳號：<span id="user-display-email" style="font-weight: bold; color: #a87c66;"></span></p>
+                    <div id="admin-badge-notice" style="display:none; color:#e67e22; font-weight:bold; margin-bottom:15px; font-size:13px;">⚡ 管理權限已啟用：頂部控制列已解鎖</div>
+                    <button class="btn-logout" onclick="handleLogout()">登出帳號</button>
+                </div>
+
+                <div class="history-container" id="history-box" style="display: none;">
+                    <h3>📦 我的歷史訂單狀態</h3>
+                    <div id="history-list-content"></div>
                 </div>
             </section>
-        </main>
-    </div>
-
-    <div id="admin-view" style="display: none;">
-        <div class="admin-dashboard">
-            <h2 class="admin-title">店家訂單管理系統</h2>
-            <div class="admin-stats-grid">
-                <div class="stat-card"><h4>待處理訂單</h4><div id="stat-new-orders" class="stat-number">0 筆</div></div>
-                <div class="stat-card"><h4>製作中</h4><div id="stat-cooking-orders" class="stat-number">0 筆</div></div>
-                <div class="stat-card revenue"><h4>總營收</h4><div id="stat-total-revenue" class="stat-number">0</div></div>
-            </div>
-            <div id="admin-orders-list-box" class="admin-orders-section"></div>
         </div>
     </div>
 
-    <div id="floating-badge" class="project-badge">
-        <div class="badge-title">多媒體期末作業</div>
-        <div class="members-list">成員：梁宇嫻 · 李冠萱 · 羅聖威 · 陳品勳 · 劉昕燁 · 陳君豪</div>
+    <div id="admin-view">
+        <div class="admin-dashboard">
+            <div class="admin-header">
+                <div class="admin-title">🧁 甜蜜時光 - 核心後台接單系統</div>
+                <button class="btn-primary" style="background:#7a5844;" onclick="refreshAdminDashboard()">🔄 重新整理訂單</button>
+            </div>
+
+            <div class="admin-stats-grid">
+                <div class="stat-card">
+                    <h4>今日新訂單</h4>
+                    <div class="stat-number" id="stat-new-orders">0 筆</div>
+                </div>
+                <div class="stat-card" style="border-left-color: #f1c40f;">
+                    <h4>製作中訂單</h4>
+                    <div class="stat-number" id="stat-cooking-orders">0 筆</div>
+                </div>
+                <div class="stat-card revenue">
+                    <h4>今日營業總額</h4>
+                    <div class="stat-number">NT$ <span id="stat-total-revenue">0</span></div>
+                </div>
+            </div>
+
+            <div class="admin-orders-section">
+                <h3>📥 即時顧客訂單流水線</h3>
+                <div id="admin-orders-list-box"></div>
+            </div>
+        </div>
     </div>
 
-    <script src="js/script.js" defer></script>
+    <script src="js/script.js"></script>
 </body>
 </html>

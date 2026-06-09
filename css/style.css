@@ -1,92 +1,18 @@
-/* --- 優化後的會員登入與註冊樣式 --- */
-.auth-container {
-    max-width: 400px;
-    margin: 60px auto; /* 稍微增加上下間距，讓版面更呼吸 */
-    background: #ffffff;
-    padding: 40px;
-    border-radius: 20px; /* 圓角調整得更圓潤一點 */
-    box-shadow: 0 10px 40px rgba(142, 108, 88, 0.1); /* 增加陰影層次感 */
-    border: 1px solid rgba(142, 108, 88, 0.05);
-}
+/* 基本重置 */
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }
+body { background-color: #fcf8f5; color: #4a3e3d; }
 
-.auth-container h2 {
-    font-size: 24px;
-    margin-bottom: 30px;
-    color: #4a3e3d;
-}
+/* 系統切換列 */
+.system-switcher { background: #4a3e3d; padding: 10px; justify-content: center; gap: 10px; color: white; }
+.system-switcher button { padding: 5px 15px; cursor: pointer; border-radius: 20px; border: none; }
+.system-switcher button.active { background: #d35400; color: white; }
 
-.form-group {
-    margin-bottom: 22px;
-}
+/* 內容區塊 */
+.page-section { display: none; padding: 40px; }
+.page-section.active { display: block; }
+#admin-view { display: none; padding: 40px; }
 
-.form-group label {
-    display: block;
-    margin-bottom: 10px;
-    font-size: 13px;
-    font-weight: 600;
-    color: #8c7e7c;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.form-group input {
-    width: 100%;
-    padding: 14px 16px;
-    border: 2px solid #f0e6e0;
-    border-radius: 12px;
-    font-size: 15px;
-    background-color: #fdfcfb;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* 焦點增強效果 */
-.form-group input:focus {
-    outline: none;
-    border-color: #caa08c;
-    background-color: #fff;
-    box-shadow: 0 0 0 4px rgba(202, 160, 140, 0.15);
-}
-
-/* 增加錯誤狀態樣式 (供 JS 調用) */
-.form-group input.invalid {
-    border-color: #d9534f;
-}
-
-.btn-auth {
-    width: 100%;
-    padding: 14px;
-    background-color: #7a5844; /* 改為與網站主要色調一致，更穩重 */
-    color: white;
-    border: none;
-    border-radius: 12px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin-top: 10px;
-}
-
-.btn-auth:hover {
-    background-color: #5d4434;
-    transform: translateY(-2px);
-}
-
-.btn-auth:active {
-    transform: translateY(0);
-    box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.auth-switch {
-    text-align: center;
-    margin-top: 25px;
-    font-size: 14px;
-    color: #8c7e7c;
-}
-
-.auth-switch a {
-    color: #7a5844;
-    text-decoration: none;
-    font-weight: bold;
-    border-bottom: 1px solid #7a5844;
-    padding-bottom: 1px;
-}
+/* 會員區塊 */
+.auth-container { max-width: 350px; margin: 0 auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+input { width: 100%; padding: 10px; margin-bottom: 10px; }
+.btn-auth { width: 100%; padding: 10px; background: #7a5844; color: white; border: none; cursor: pointer; }

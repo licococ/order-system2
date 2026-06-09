@@ -1,7 +1,45 @@
-<!-- index.html 中的下拉選單區域 -->
-<div class="dropdown-content">
-    <a onclick="showPage('order-section'); filterCategory('全部甜點')">全部甜點</a>
-    <a onclick="showPage('order-section'); filterCategory('法式塔類')">法式塔類</a>
-    <a onclick="showPage('order-section'); filterCategory('招牌蛋糕')">招牌蛋糕</a>
-    <a onclick="showPage('order-section'); filterCategory('常溫點心')">常溫點心</a>
-</div>
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>甜蜜時光 Patisserie</title>
+    
+    <link rel="stylesheet" href="css/style.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <nav>
+            <div class="logo">甜蜜時光 Patisserie</div>
+            <ul>
+                <li><a href="#" onclick="showPage('home-section')">關於我們</a></li>
+                <li><a href="#" onclick="showPage('order-section'); filterCategory('全部甜點')">線上點餐</a></li>
+                <li><a href="#" onclick="showPage('member-section')">會員中心</a></li>
+                <li><a href="#" onclick="showPage('cart-section')">購物車 (0)</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home-section" class="page-section active">
+            <h1>尋找專屬您的午後法式浪漫</h1>
+            <p>每一道手工甜點，都是精選頂級食材與職人精神的完美揉合。</p>
+            <button onclick="showPage('order-section'); filterCategory('全部甜點')">探索精選甜點</button>
+        </section>
+
+        <section id="order-section" class="page-section">
+            <h2 id="menu-title-text">全部甜點</h2>
+            <div id="menu-grid-box" class="menu-grid">
+                </div>
+        </section>
+
+        <section id="member-section" class="page-section">...</section>
+        <section id="cart-section" class="page-section">...</section>
+    </main>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

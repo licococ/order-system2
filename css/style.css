@@ -1,5 +1,4 @@
-<style>
-        /* --- 基礎全域樣式 --- */
+    /* --- 基礎全域樣式 --- */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -543,4 +542,3 @@
         .btn-accept:hover { background: #0984e3; }
         .btn-finish { background: #2ecc71; color: white; }
         .btn-finish:hover { background: #27ae60; }
-    </style>

@@ -1,30 +1,23 @@
-// 系統切換 (前台/後台)
-function switchSystem(type) {
-    document.getElementById('user-view').style.display = (type === 'user') ? 'block' : 'none';
-    document.getElementById('admin-view').style.display = (type === 'admin') ? 'block' : 'none';
-    
-    // 更新按鈕樣式
-    document.getElementById('btn-user').classList.toggle('active', type === 'user');
-    document.getElementById('btn-admin').classList.toggle('active', type === 'admin');
-}
+let currentUser = null;
+let cart = [];
 
-// 頁面切換 (關於我們/點餐/會員)
-function showPage(pageId) {
-    document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
-    document.getElementById(pageId).classList.add('active');
-}
+// 系統初始化
+localStorage.setItem("user_sweet@123", "123");
 
-// 登入邏輯
-function login() {
-    const name = document.getElementById('username-input').value;
-    if(name) {
-        document.getElementById('login-area').style.display = 'none';
-        document.getElementById('member-area').style.display = 'block';
-        document.getElementById('user-display').innerText = `歡迎回來，${name}`;
-    }
-}
+const products = [
+    { id: 1, name: "法式盛夏芒果塔", price: 160, category: "法式塔類", img: "images (2).jpg" },
+    { id: 2, name: "小山園宇治抹茶塔", price: 150, category: "法式塔類", img: "images (3).jpg" },
+    { id: 3, name: "炙燒焦糖檸檬塔", price: 140, category: "法式塔類", img: "800x.jpg" },
+    { id: 4, name: "經典草莓戚風蛋糕", price: 240, category: "招牌蛋糕", img: "images (4).jpg" },
+    { id: 5, name: "比利時濃郁榛果黑巧蛋糕", price: 220, category: "招牌蛋糕", img: "images (5).jpg" },
+    { id: 6, name: "海鹽焦糖巴斯克乳酪蛋糕", price: 180, category: "招牌蛋糕", img: "images (6).jpg" },
+    { id: 7, name: "靜岡抹茶瑪德蓮 (3入)", price: 110, category: "常溫點心", img: "images (7).jpg" },
+    { id: 8, name: "法式經典香草可麗露 (2入)", price: 130, category: "常溫點心", img: "images (8).jpg" }
+];
 
-function logout() {
-    document.getElementById('login-area').style.display = 'block';
-    document.getElementById('member-area').style.display = 'none';
-}
+// ... (請將您原本 script 中的 switchSystem, showPage, 等所有函式與我上方補充的邏輯貼在此處)
+
+// 頁面載入後自動執行
+window.onload = () => {
+    filterCategory('全部甜點');
+};

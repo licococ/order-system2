@@ -1,5 +1,5 @@
-// 全域變數
-let currentUser = null; // null 代表未登入
+// --- 1. 全域變數與系統初始化 ---
+let currentUser = null;
 let cart = [];
 
 // 產品數據
@@ -13,31 +13,97 @@ const products = [
     { id: 7, name: "比利時濃郁榛果黑巧蛋糕", price: 180, category: "招牌蛋糕", img: "images/images-5.jpg" }
 ];
 
-// --- 1. 會員系統 ---
-function login() {
-    const username = document.getElementById('username-input').value;
-    if (username.trim() === "") return alert("請輸入姓名！");
-    
-    currentUser = username;
-    document.getElementById('user-display').innerText = `歡迎回來, ${currentUser}`;
-    document.getElementById('login-area').style.display = 'none'; // 隱藏登入框
-    document.getElementById('member-area').style.display = 'block'; // 顯示會員功能
+// --- 2. 頁面顯示控制 ---
+function showPage(pageId) {
+    document.querySelectorAll('.page-section').forEach(sec => sec.classList.remove('active'));
+    const target = document.getElementById(pageId);
+    if (target) target.classList.add('active');
 }
 
-// --- 2. 購物車與訂單 ---
+function switchSystem(systemType) {
+    document.getElementById('user-view').style.display = (systemType === 'user') ? 'block' : 'none';
+    document.getElementById('admin-view').style.display = (systemType === 'admin') ? 'block' : 'none';
+}
+
+// --- 3. 會員功能 ---
+function login() {
+    const input = document.getElementById('username-input');
+    if (!input || input.value.trim() === "") return alert("請輸入姓名！");
+    
+    currentUser = input.value;
+    document.getElementById('user-display').innerText = `歡迎回來, ${currentUser}`;
+    document.getElementById('login-area').style.display = 'none';
+    document.getElementById('member-area').style.display = 'block';
+}
+
+function renderHistory() {
+    const historyList = document.getElementById('history-list');
+    const history = JSON.parse(localStorage.getItem('orderHistory') || '[]');
+    
+    if (history.length === 0) {
+        historyList.innerHTML = "<li>目前沒有歷史訂單</li>";
+    } else {
+        historyList.innerHTML = history.map(o => `<li>訂單 #${o.id} - ${o.date} - $${o.total}</li>`).join('');
+    }
+}
+
+// --- 4. 購物車與訂單功能 ---
+function filterCategory(category) {
+    const titleElement = document.getElementById('menu-title-text');
+    const menuGridBox = document.getElementById('menu-grid-box');
+    
+    if (!menuGridBox) return;
+    
+    titleElement.innerText = category === '全部甜點' ? "精選甜點菜單" : category;
+    const filtered = category === '全部甜點' ? products : products.filter(p => p.category === category);
+    
+    menuGridBox.innerHTML = filtered.map(product => `
+        <div class="menu-item">
+            <img src="${product.img}" alt="${product.name}">
+            <div class="menu-info">
+                <div class="menu-title">${product.name}</div>
+                <div class="menu-price">NT$ ${product.price}</div>
+                <button class="btn-add" onclick="addToCart(${product.id})">加入購物車</button>
+            </div>
+        </div>
+    `).join('');
+}
+
 function addToCart(productId) {
     const product = products.find(p => p.id === productId);
-    cart.push(product);
-    renderCart();
+    if (product) {
+        cart.push(product);
+        renderCart();
+    }
 }
 
-function submitOrder() {
-    if (!currentUser) return alert("請先登入會員！");
+function renderCart() {
+    const cartItems = document.getElementById('cart-items');
+    const count = document.getElementById('cart-count');
+    const total = document.getElementById('total-amount');
+    const cartBox = document.getElementById('cart-total-box');
+    const emptyMsg = document.getElementById('empty-cart-msg');
+    
+    if (cart.length === 0) {
+        if(cartItems) cartItems.innerHTML = '';
+        if(cartBox) cartBox.style.display = 'none';
+        if(emptyMsg) emptyMsg.style.display = 'block';
+    } else {
+        if(cartItems) cartItems.innerHTML = cart.map(item => `<li>${item.name} - NT$${item.price}</li>`).join('');
+        if(cartBox) cartBox.style.display = 'block';
+        if(emptyMsg) emptyMsg.style.display = 'none';
+        if(total) total.innerText = cart.reduce((sum, item) => sum + item.price, 0);
+    }
+    if(count) count.innerText = cart.length;
+}
+
+function checkout() {
+    if (!currentUser) return alert("請先至會員中心登入！");
     if (cart.length === 0) return alert("購物車是空的！");
 
     const order = {
         id: new Date().getTime(),
-        date: new Date().toLocaleDateString(),
+        date: new Date().toLocaleString(),
         total: cart.reduce((sum, item) => sum + item.price, 0)
     };
 
@@ -45,25 +111,12 @@ function submitOrder() {
     history.push(order);
     localStorage.setItem('orderHistory', JSON.stringify(history));
 
-    alert("訂單已送出！");
+    alert("訂單已送出，謝謝您的購買！");
     cart = [];
     renderCart();
 }
 
-// --- 3. 渲染邏輯 ---
-function renderCart() {
-    document.getElementById('cart-count').innerText = cart.length;
-    document.getElementById('total-amount').innerText = cart.reduce((sum, item) => sum + item.price, 0);
-}
-
-function renderHistory() {
-    const historyList = document.getElementById('history-list');
-    const history = JSON.parse(localStorage.getItem('orderHistory') || '[]');
-    historyList.innerHTML = history.map(o => `<li>訂單 #${o.id} - ${o.date} - $${o.total}</li>`).join('');
-}
-
-// --- 4. 初始化 ---
+// --- 5. 初始化 ---
 document.addEventListener('DOMContentLoaded', () => {
-    // 預設狀態
-    document.getElementById('member-area').style.display = 'none';
+    filterCategory('全部甜點');
 });

@@ -1,0 +1,55 @@
+/* =========================================================
+   1. 全域重置與基礎樣式 (Reset & Base)
+   ========================================================= */
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Playfair Display', "微軟正黑體", sans-serif; }
+body { background-color: #fcf8f5; color: #4a3e3d; line-height: 1.7; }
+
+/* =========================================================
+   2. UI 組件：導覽列與功能懸浮標籤 (Navbar & Badges)
+   ========================================================= */
+header { background-color: rgba(255, 255, 255, 0.95); position: sticky; top: 0; z-index: 1000; }
+.system-switcher { display: none; background: #4a3e3d; padding: 12px 20px; justify-content: center; }
+.project-badge { position: fixed; bottom: 25px; right: 25px; z-index: 9999; }
+
+/* =========================================================
+   3. 頁面切換機制 (Page Transition)
+   ========================================================= */
+.page-section { display: none; }
+.page-section.active { display: block; animation: fadeIn 0.6s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+/* =========================================================
+   4. 首頁視覺區塊 (Hero & Features)
+   ========================================================= */
+.hero-section { background-size: cover; border-radius: 20px; padding: 90px 60px; display: flex; }
+.section-title { text-align: center; font-size: 26px; margin: 35px 0; }
+
+/* =========================================================
+   5. 點餐系統模組 (Menu & Cart)
+   ========================================================= */
+.order-layout { display: grid; grid-template-columns: 2.6fr 1fr; gap: 35px; }
+.menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 25px; }
+.menu-item { background: #fff; border-radius: 14px; overflow: hidden; transition: 0.3s; }
+.cart-box { position: sticky; top: 100px; background: #fff; padding: 22px; border-radius: 16px; }
+
+/* =========================================================
+   6. 會員中心與權限 (Auth & User Status)
+   ========================================================= */
+.auth-container { max-width: 400px; margin: 40px auto; padding: 35px; background: white; border-radius: 16px; }
+.form-group input { width: 100%; padding: 11px; border: 1px solid #e5dbd5; border-radius: 8px; }
+
+/* =========================================================
+   7. 管理者後台專用 (Admin Dashboard)
+   ========================================================= */
+#admin-view { display: none; background: #f5f0eb; min-height: 100vh; padding: 30px; }
+.stat-card { background: white; padding: 20px; border-radius: 12px; border-left: 5px solid #7a5844; }
+
+/* =========================================================
+   8. 響應式佈局 (Responsive Design - Media Queries)
+   ========================================================= */
+@media (max-width: 950px) {
+    .order-layout { grid-template-columns: 1fr; }
+}
+@media (max-width: 850px) {
+    .hero-section { flex-direction: column; text-align: center; }
+}

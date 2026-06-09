@@ -473,7 +473,7 @@
         .order-card-total { text-align: right; font-weight: bold; color: #b57a5f; font-size: 15px; }
         .no-history-msg { text-align: center; color: #a39592; padding: 30px 0; font-size: 14px; }
 
-        /* ================ 🏪 店家後台操作端樣式 ================ */
+        /* ================= 🏪 店家後台操作端樣式 ================= */
         #admin-view {
             display: none;
             background: #f5f0eb;

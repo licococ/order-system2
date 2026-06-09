@@ -1,9 +1,17 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>甜蜜時光 Patisserie - 雙端系統</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
 <body>
 
     <div class="system-switcher" id="admin-switcher-bar" style="display: none;">
-        <span>⚙️ 系統切換：</span>
-        <button id="switch-user-btn" class="active" onclick="switchSystem('user')">📱 顧客前台</button>
-        <button id="switch-admin-btn" onclick="switchSystem('admin')">🏪 後台管理</button>
+        <span>⚙️ 核心系統切換：</span>
+        <button id="switch-user-btn" class="active" onclick="switchSystem('user')">📱 顧客前台下單端</button>
+        <button id="switch-admin-btn" onclick="switchSystem('admin')">🏪 店家後台接單端</button>
     </div>
 
     <div id="user-view">
@@ -11,7 +19,7 @@
             <div class="nav-container">
                 <div class="logo">甜蜜時光 Patisserie</div>
                 <ul class="nav-menu">
-                    <li><a id="nav-home" onclick="showPage('home-section')">首頁</a></li>
+                    <li><a id="nav-home" class="active" onclick="showPage('home-section')">首頁</a></li>
                     <li><a id="nav-order" onclick="showPage('order-section')">開始點餐</a></li>
                     <li><a id="nav-login" onclick="showPage('login-section')">會員登入</a></li>
                 </ul>
@@ -20,7 +28,13 @@
 
         <main class="container">
             <section id="home-section" class="page-section active">
-                <h1>歡迎來到甜蜜時光</h1>
+                <div class="hero-section">
+                    <div class="hero-content">
+                        <h1>品味法式經典</h1>
+                        <p>嚴選頂級食材，匠心手作每一份甜點。為您的午後帶來最溫暖的甜蜜滋味。</p>
+                        <button class="btn-primary" onclick="showPage('order-section')">立即點餐</button>
+                    </div>
+                </div>
             </section>
 
             <section id="order-section" class="page-section">
@@ -35,7 +49,7 @@
                         <ul id="cart-items" class="cart-items-list"></ul>
                         <div id="cart-total-box" style="display:none;">
                             <div class="total-row">總計: NT$ <span id="total-amount">0</span></div>
-                            <button class="btn-checkout" onclick="checkout()">結帳去</button>
+                            <button class="btn-checkout" onclick="checkout()">確認結帳</button>
                         </div>
                     </div>
                 </div>
@@ -43,6 +57,7 @@
 
             <section id="login-section" class="page-section">
                 <div id="login-form-box" class="auth-container">
+                    <h2>會員登入</h2>
                     <form onsubmit="handleLogin(event)">
                         <div class="form-group"><label>帳號 (Email)</label><input type="text" id="login-email" required></div>
                         <div class="form-group"><label>密碼</label><input type="password" id="login-password" required></div>
@@ -50,7 +65,7 @@
                     </form>
                 </div>
                 <div id="user-status" style="display:none;" class="user-welcome-box">
-                    <h3>歡迎回來, <span id="user-display-email"></span></h3>
+                    <h3>會員您好：<span id="user-display-email"></span></h3>
                     <button class="btn-logout" onclick="handleLogout()">登出</button>
                     <div id="history-list-content" class="history-container"></div>
                 </div>
@@ -62,9 +77,9 @@
         <div class="admin-dashboard">
             <h2 class="admin-title">店家訂單管理系統</h2>
             <div class="admin-stats-grid">
-                <div class="stat-card"><h4>待處理</h4><div id="stat-new-orders" class="stat-number">0</div></div>
-                <div class="stat-card"><h4>製作中</h4><div id="stat-cooking-orders" class="stat-number">0</div></div>
-                <div class="stat-card revenue"><h4>已完成收益</h4><div id="stat-total-revenue" class="stat-number">0</div></div>
+                <div class="stat-card"><h4>待處理訂單</h4><div id="stat-new-orders" class="stat-number">0 筆</div></div>
+                <div class="stat-card"><h4>製作中</h4><div id="stat-cooking-orders" class="stat-number">0 筆</div></div>
+                <div class="stat-card revenue"><h4>總營收</h4><div id="stat-total-revenue" class="stat-number">0</div></div>
             </div>
             <div id="admin-orders-list-box" class="admin-orders-section"></div>
         </div>
@@ -77,3 +92,4 @@
 
     <script src="js/script.js" defer></script>
 </body>
+</html>

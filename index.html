@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>甜蜜時光 Patisserie</title>
     
-    <link rel="stylesheet" href="./test.css">
+    <link rel="stylesheet" href="./style_phone.css" media="screen and (max-width: 768px)">
+    <link rel="stylesheet" href="./style.css" media="screen and (min-width: 769px)">
 </head>
 <body>
 
@@ -113,71 +114,3 @@
                     </form>
                     <div class="auth-switch">還沒有帳號嗎？ <a href="#" onclick="toggleForm('register')">立即註冊</a></div>
                 </div>
-
-                <div class="auth-container" id="register-form-box" style="display: none;">
-                    <h2>加入會員</h2>
-                    <form onsubmit="handleRegister(event)">
-                        <div class="form-group">
-                            <label for="reg-email">電子信箱 (Email)</label>
-                            <input type="email" id="reg-email" required placeholder="example@mail.com">
-                        </div>
-                        <div class="form-group">
-                            <label for="reg-password">設定密碼</label>
-                            <input type="password" id="reg-password" required placeholder="請輸入密碼">
-                        </div>
-                        <div class="form-group">
-                            <label for="reg-confirm">確認密碼</label>
-                            <input type="password" id="reg-confirm" required placeholder="請再次輸入密碼">
-                        </div>
-                        <button type="submit" class="btn-auth">確認註冊</button>
-                    </form>
-                    <div class="auth-switch">已經有帳號了？ <a href="#" onclick="toggleForm('login')">返回登入</a></div>
-                </div>
-
-                <div class="auth-container user-welcome-box" id="user-status" style="display: none;">
-                    <h2>🎉 歡迎回來！</h2>
-                    <p style="margin: 15px 0; font-size: 15px;">使用者帳號：<span id="user-display-email" style="font-weight: bold; color: #a87c66;"></span></p>
-                    <div id="admin-badge-notice" style="display:none; color:#e67e22; font-weight:bold; margin-bottom:15px; font-size:13px;">⚡ 管理權限已啟用：頂部控制列已解鎖</div>
-                    <button class="btn-logout" onclick="handleLogout()">登出帳號</button>
-                </div>
-
-                <div class="history-container" id="history-box" style="display: none;">
-                    <h3>📦 我的歷史訂單狀態</h3>
-                    <div id="history-list-content"></div>
-                </div>
-            </section>
-        </div>
-    </div>
-
-    <div id="admin-view">
-        <div class="admin-dashboard">
-            <div class="admin-header">
-                <div class="admin-title">🧁 甜蜜時光 - 核心後台接單系統</div>
-                <button class="btn-primary" style="background:#7a5844;" onclick="refreshAdminDashboard()">🔄 重新整理訂單</button>
-            </div>
-
-            <div class="admin-stats-grid">
-                <div class="stat-card">
-                    <h4>今日新訂單</h4>
-                    <div class="stat-number" id="stat-new-orders">0 筆</div>
-                </div>
-                <div class="stat-card" style="border-left-color: #f1c40f;">
-                    <h4>製作中訂單</h4>
-                    <div class="stat-number" id="stat-cooking-orders">0 筆</div>
-                </div>
-                <div class="stat-card revenue">
-                    <h4>今日營業總額</h4>
-                    <div class="stat-number">NT$ <span id="stat-total-revenue">0</span></div>
-                </div>
-            </div>
-
-            <div class="admin-orders-section">
-                <h3>📥 即時顧客訂單流水線</h3>
-                <div id="admin-orders-list-box"></div>
-            </div>
-        </div>
-    </div>
-
-    <script src="./test.js"></script>
-</body>
-</html>

@@ -1,1 +1,108 @@
+/* ==========================================================================
+   🧁 甜蜜時光 - 手機版專用獨立樣式 (mobile.css)
+   ========================================================================== */
 
+/* 1. 頂部導覽列：修正「甜蜜時光 Patisserie」斷行問題 */
+.nav-container {
+    flex-direction: column !important; 
+    gap: 12px !important;
+    padding: 12px 15px !important;
+}
+
+.logo {
+    font-size: 20px !important;       
+    white-space: nowrap !important;   
+    justify-content: center !important;
+    width: 100% !important;
+    letter-spacing: 1.5px !important;
+}
+
+/* 2. 修正中央首頁區塊（白色卡片與文字） */
+.hero-section {
+    background-attachment: scroll !important; 
+    margin-bottom: 30px !important;
+}
+
+.hero-content {
+    padding: 30px 20px !important;   
+    width: 100% !important;
+}
+
+.hero-content h1 {
+    font-size: 26px !important;       
+    line-height: 1.5 !important;      
+    text-align: center !important;     
+    word-break: keep-all !important;  
+    letter-spacing: 1px !important;
+}
+
+.hero-content p {
+    font-size: 14px !important;       
+    line-height: 1.7 !important;
+    text-align: justify !important;    
+    margin-bottom: 20px !important;
+}
+
+.btn-primary {
+    display: block !important;         
+    width: 85% !important;
+    max-width: 240px !important;
+    margin: 0 auto !important;         
+    padding: 12px 20px !important;
+    text-align: center !important;
+}
+
+/* 3. 互動式浮動標籤 */
+.project-badge {
+    bottom: 15px !important;          
+    right: 15px !important;
+    padding: 10px 16px !important;
+    font-size: 12px !important;
+}
+
+/* 4. 特性卡片與點餐區調整 */
+.section-title {
+    font-size: 22px !important;       
+    margin-bottom: 25px !important;
+}
+
+.features-grid {
+    gap: 15px !important;             
+    margin-bottom: 40px !important;
+}
+
+.feature-card {
+    padding: 25px 20px !important;    
+}
+
+/* 5. 原本網頁尾端的手機導覽列優化機制（直接移過來） */
+.nav-menu {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-around !important;
+    align-items: center !important;
+    width: 100% !important;
+    padding: 10px 0 !important;
+    margin: 0 !important;
+}
+.nav-menu li {
+    display: inline-block !important;
+    list-style: none !important;
+}
+.nav-menu .nav-icon, .nav-menu li a i {
+    display: inline-block !important;
+    font-size: 20px !important; 
+    color: #7a5844 !important;  
+    visibility: visible !important;
+    opacity: 0.85 !important;
+}
+.nav-menu .nav-text {
+    display: none !important;
+}
+.nav-menu li a {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-decoration: none !important;
+    height: 100%;
+}

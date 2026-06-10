@@ -543,7 +543,9 @@
         .btn-finish { background: #2ecc71; color: white; }
         .btn-finish:hover { background: #27ae60; }
 
-       <a href="#">
-         <i class="fas fa-shopping-cart"></i>
-         <span class="nav-text">購物車 (0)</span>
-       </a>
+       @media (max-width: 767px) {
+         /* 在手機版隱藏純文字，只留下圖標 */
+         .nav-text {
+           display: none;
+         }
+       }

@@ -26,10 +26,19 @@
         <header>
             <div class="nav-container">
                 <a onclick="showPage('home-section')" class="logo">🍰 甜蜜時光 Patisserie</a>
+                
                 <ul class="nav-menu">
-                    <li><a id="nav-home" onclick="showPage('home-section')" class="active">關於我們</a></li>
+                    <li>
+                        <a id="nav-home" onclick="showPage('home-section')" class="active">
+                            <span class="nav-icon">ℹ️</span>
+                            <span class="nav-text">關於我們</span>
+                        </a>
+                    </li>
                     <li class="dropdown">
-                        <a id="nav-order" onclick="showPage('order-section')">線上點餐 ▾</a>
+                        <a id="nav-order" onclick="showPage('order-section')">
+                            <span class="nav-icon">📜</span>
+                            <span class="nav-text">線上點餐 ▾</span>
+                        </a>
                         <div class="dropdown-content">
                             <a onclick="showPage('order-section'); filterCategory('全部甜點')">全部甜點</a>
                             <a onclick="showPage('order-section'); filterCategory('法式塔類')">法式塔類</a>
@@ -37,8 +46,19 @@
                             <a onclick="showPage('order-section'); filterCategory('常溫點心')">常溫點心</a>
                         </div>
                     </li>
-                    <li><a id="nav-login" onclick="showPage('login-section')">會員中心</a></li>
-                    <li><a onclick="showPage('order-section', true)" style="color: #b57a5f; font-weight: bold;">🛒 購物車 (<span id="cart-count">0</span>)</a></li>
+                    <li>
+                        <a id="nav-login" onclick="showPage('login-section')">
+                            <span class="nav-icon">👤</span>
+                            <span class="nav-text">會員中心</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a onclick="showPage('order-section', true)" style="color: #b57a5f; font-weight: bold; display: flex; align-items: center; gap: 2px;">
+                            <span>🛒</span>
+                            <span class="nav-text">購物車</span>
+                            <span>(<span id="cart-count">0</span>)</span>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </header>

@@ -186,6 +186,7 @@
     
     .nav-menu li {
         display: inline-block;
+        vertical-align: middle;
     }
     
     .nav-menu a {
@@ -201,34 +202,40 @@
         color: #c98e71;
     }
 
-    /* --- 下拉選單樣式 --- */
+    /* --- 🛠️ 下拉選單樣式修正版 (防止被 overflow 剪裁) --- */
     .dropdown {
         position: relative;
+        display: inline-block;
     }
     
     .dropdown-content {
         display: none;
-        position: absolute;
-        background-color: #fff;
-        min-width: 130px;
-        box-shadow: 0px 8px 25px rgba(142, 108, 88, 0.15);
-        border-radius: 8px;
-        padding: 5px 0;
-        z-index: 1001;
-        top: 100%;
-        left: 50%;
-        transform: translateX(-50%);
+        /* 核心修正：取消絕對定位與位移，改為跟隨文件流，避免被 nav-menu 的 overflow 切掉 */
+        position: static; 
+        transform: none;
+        
+        /* 手機端外觀微調 */
+        background-color: #fff6f2; /* 稍微換個底色與主選單做出視覺區隔 */
+        min-width: auto;
+        box-shadow: none; 
+        border-radius: 6px;
+        padding: 2px;
         border: 1px solid #f5eae4;
+        margin-left: 5px;
     }
     
     .dropdown-content a {
-        padding: 10px 15px;
-        font-size: 13px;
+        padding: 4px 10px;
+        font-size: 12px;
         text-align: center;
+        display: inline-block; /* 讓子選單項目在手機端可以橫向並排 */
     }
     
-    .dropdown:hover .dropdown-content, .dropdown:active .dropdown-content {
-        display: block;
+    /* 觸發顯示時的設定 */
+    .dropdown:hover .dropdown-content, 
+    .dropdown:active .dropdown-content {
+        display: inline-block;
+        vertical-align: middle;
     }
 
     /* --- 區塊切換隱藏機制 --- */
@@ -248,7 +255,7 @@
 
     /* ================= 豪華版首頁樣式 ================= */
     .hero-section {
-        background: linear-gradient(135deg, rgba(243, 230, 223, 0.9) 0%, rgba(234, 222, 122, 0.4) 100%), url('images/cake_berry.jpg');
+        background: linear-gradient(135deg, rgba(243, 230, 223, 0.9) 0%, rgba(234, 222, 122, 0.4) 100%), url('../images/cake_berry.jpg');
         background-size: cover;
         background-position: center;
         border-radius: 16px;
@@ -427,3 +434,8 @@
         color: white;
         border: none;
         padding: 12px;
+        border-radius: 8px;
+        font-size: 15px;
+        font-weight: bold;
+    }
+}

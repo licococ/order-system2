@@ -543,15 +543,7 @@
         .btn-finish { background: #2ecc71; color: white; }
         .btn-finish:hover { background: #27ae60; }
 
-       @media (max-width: 950px) {
-           /* 把原本的側邊欄購物車改為彈出式或懸浮按鈕 */
-           .cart-box {
-               position: fixed;
-               bottom: 20px;
-               right: 20px;
-               width: 90%;
-               max-height: 50vh;
-               z-index: 9999;
-               box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-           }
-       }
+       <a href="#">
+         <i class="fas fa-shopping-cart"></i>
+         <span class="nav-text">購物車 (0)</span>
+       </a>

@@ -325,3 +325,20 @@ let currentUser = null;
                 refreshAdminDashboard();
             }
         }
+        function isMobile() {
+            return window.innerWidth <= 768;
+        }
+        
+        // 範例：根據裝置大小執行不同邏輯
+        if (isMobile()) {
+            console.log("這裡是手機版，執行簡易版購物車動畫");
+        } else {
+            console.log("這裡是電腦版，執行完整版滑鼠懸浮特效");
+        }
+        
+        // 監聽螢幕旋轉或調整大小
+        window.addEventListener('resize', () => {
+            if (window.innerWidth <= 768) {
+                // 切換到手機排版
+            }
+        });

@@ -217,7 +217,7 @@
 
         /* ================= 高級質感首頁樣式 ================= */
         .hero-section {
-            background: linear-gradient(135deg, #f3e6df 0%, rgba(234, 222, 122, 0.33) 100%);
+            background: linear-gradient(135deg, #f3e6df 0%, rgba(234, 222, 122, 0.33) 100%, url('images/images (4).jpg'));
             background-size: cover;
             background-position: center;
             border-radius: 20px;

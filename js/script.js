@@ -1,7 +1,7 @@
 let currentUser = null;
 let cart = [];
 
-// 🧠 核心更改：預設全新的管理者通行證
+// 🧠 核心設置：預設全新的管理者通行證
 localStorage.setItem("user_sweet@123", "123");
 
 const products = [
@@ -10,88 +10,72 @@ const products = [
     { id: 3, name: "炙燒焦糖檸檬塔", price: 140, category: "法式塔類", img: "images/lemon_tart.jpg" },
     { id: 4, name: "經典草莓戚風蛋糕", price: 240, category: "招牌蛋糕", img: "images/cake_berry.jpg" },
     { id: 5, name: "比利時濃郁榛果黑巧蛋糕", price: 220, category: "招牌蛋糕", img: "images/cake_cocoa.jpg" },
-    { id: 6, name: "海鹽焦 caramel 巴斯克乳酪蛋糕", price: 180, category: "招牌蛋糕", img: "images/cake_cheese.jpg" },
+    { id: 6, name: "海鹽焦糖巴斯克乳酪蛋糕", price: 180, category: "招牌蛋糕", img: "images/cake_cheese.jpg" },
     { id: 7, name: "靜岡抹茶瑪德蓮 (3入)", price: 110, category: "常溫點心", img: "images/madeleine.jpg" },
     { id: 8, name: "法式經典香草可麗露 (2入)", price: 130, category: "常溫點心", img: "images/canelet.jpg" }
 ];
 
-// 🚀 網頁載入完成後的安全初始化區（雙端保險）
+// 🚀 網頁加載安全初始化
 window.onload = function() {
-    try {
-        const width = window.innerWidth;
-        if (width >= 768) {
-            document.body.classList.remove('is-mobile');
-            document.body.classList.add('is-pc');
-        } else {
-            document.body.classList.remove('is-pc');
-            document.body.classList.add('is-mobile');
-        }
-        filterCategory('全部甜點');
-    } catch (e) {
-        console.log("初始化小提示：部分元件在當前模式下隱藏，不影響系統運作。");
+    // 1. 精準對齊 HTML 中 media query 的 767px 斷點
+    if (window.innerWidth <= 767) {
+        document.body.classList.remove('is-pc');
+        document.body.classList.add('is-mobile');
+    } else {
+        document.body.classList.remove('is-mobile');
+        document.body.classList.add('is-pc');
     }
+    // 2. 載入產品菜單
+    filterCategory('全部甜點');
 };
 
-function switchSystem(systemType) {
-    const userView = document.getElementById('user-view');
-    const adminView = document.getElementById('admin-view');
-    const userBtn = document.getElementById('switch-user-btn');
-    const adminBtn = document.getElementById('switch-admin-btn');
-
-    if (systemType === 'admin') {
-        if(userView) userView.style.display = 'none';
-        if(adminView) adminView.style.display = 'block';
-        if(userBtn) userBtn.classList.remove('active');
-        if(adminBtn) adminBtn.classList.add('active');
-        refreshAdminDashboard();
-    } else {
-        if(userView) userView.style.display = 'block';
-        if(adminView) adminView.style.display = 'none';
-        if(userBtn) userBtn.classList.add('active');
-        if(adminBtn) adminBtn.classList.remove('active');
-        if(currentUser) renderHistoryOrders();
-    }
-}
-
-function getGlobalOrders() {
-    return JSON.parse(localStorage.getItem('global_bakery_orders')) || [];
-}
-
-function saveGlobalOrders(orders) {
-    localStorage.setItem('global_bakery_orders', JSON.stringify(orders));
-}
-
 function showPage(pageId, scrollToCart = false) {
-    // 隱藏所有分頁
+    // 隱藏所有分頁區塊
     const sections = document.querySelectorAll('.page-section');
     sections.forEach(sec => sec.classList.remove('active'));
     
-    // 顯示目標分頁
+    // 顯示指定的目標分頁
     const targetPage = document.getElementById(pageId);
     if (targetPage) targetPage.classList.add('active');
 
-    // 🌟 超強防錯機制：就算找不到 nav 按鈕也絕對不准噴錯死機！
+    // 清除導覽列所有按鈕的點亮狀態
     const navIds = ['nav-home', 'nav-order', 'nav-login', 'nav-cart'];
     navIds.forEach(id => {
         const navEl = document.getElementById(id);
         if (navEl) navEl.classList.remove('active');
     });
 
+    // 依據目前分頁，點亮對應按鈕（加入高度安全防護，找不到元件不報錯）
     try {
-        if (pageId === 'home-section' && document.getElementById('nav-home')) document.getElementById('nav-home').classList.add('active');
-        if (pageId === 'order-section' && !scrollToCart && document.getElementById('nav-order')) document.getElementById('nav-order').classList.add('active');
-        if (pageId === 'order-section' && scrollToCart && document.getElementById('nav-cart')) document.getElementById('nav-cart').classList.add('active');
-        if (pageId === 'login-section' && document.getElementById('nav-login')) document.getElementById('nav-login').classList.add('active');
-    } catch(err) { }
+        if (pageId === 'home-section') {
+            const el = document.getElementById('nav-home');
+            if (el) el.classList.add('active');
+        }
+        if (pageId === 'order-section' && !scrollToCart) {
+            const el = document.getElementById('nav-order');
+            if (el) el.classList.add('active');
+        }
+        if (pageId === 'order-section' && scrollToCart) {
+            const el = document.getElementById('nav-cart');
+            if (el) el.classList.add('active');
+        }
+        if (pageId === 'login-section') {
+            const el = document.getElementById('nav-login');
+            if (el) el.classList.add('active');
+        }
+    } catch(err) {
+        console.log("導覽列切換提示：部分按鈕目前不可見。");
+    }
 
-    if (scrollToCart && window.innerWidth <= 950) {
+    // 手機端點擊購物車自動平滑滾動
+    if (scrollToCart && window.innerWidth <= 767) {
         setTimeout(() => {
             const cartAnchor = document.getElementById('cart-anchor');
             if (cartAnchor) {
                 const topOffset = cartAnchor.getBoundingClientRect().top + window.pageYOffset - 90;
                 window.scrollTo({top: topOffset, behavior: 'smooth'});
             }
-        }, 50);
+        }, 80);
     } else {
         window.scrollTo({top: 0, behavior: 'smooth'});
     }
@@ -125,6 +109,27 @@ function filterCategory(category) {
     }
 }
 
+function switchSystem(systemType) {
+    const userView = document.getElementById('user-view');
+    const adminView = document.getElementById('admin-view');
+    const userBtn = document.getElementById('switch-user-btn');
+    const adminBtn = document.getElementById('switch-admin-btn');
+
+    if (systemType === 'admin') {
+        if(userView) userView.style.display = 'none';
+        if(adminView) adminView.style.display = 'block';
+        if(userBtn) userBtn.classList.remove('active');
+        if(adminBtn) adminBtn.classList.add('active');
+        refreshAdminDashboard();
+    } else {
+        if(userView) userView.style.display = 'block';
+        if(adminView) adminView.style.display = 'none';
+        if(userBtn) userBtn.classList.add('active');
+        if(adminBtn) adminBtn.classList.remove('active');
+        if(currentUser) renderHistoryOrders();
+    }
+}
+
 function addToCart(name, price) {
     if (!currentUser) {
         alert("親愛的顧客，請先登入會員才能開始挑選美味甜點喔！");
@@ -145,7 +150,6 @@ function updateCartUI() {
     const totalSpan = document.getElementById('total-amount');
 
     if (!container) return;
-
     container.innerHTML = '';
     let total = 0, count = 0;
 
@@ -178,7 +182,14 @@ function removeFromCart(index) {
     updateCartUI();
 }
 
-// 剩餘後台與登入功能保持安全不變
+function getGlobalOrders() {
+    return JSON.parse(localStorage.getItem('global_bakery_orders')) || [];
+}
+
+function saveGlobalOrders(orders) {
+    localStorage.setItem('global_bakery_orders', JSON.stringify(orders));
+}
+
 function checkout() {
     if (!currentUser) return;
     const totalAmt = parseInt(document.getElementById('total-amount').innerText);
@@ -206,8 +217,10 @@ function checkout() {
 }
 
 function toggleForm(type) {
-    document.getElementById('login-form-box').style.display = type === 'register' ? 'none' : 'block';
-    document.getElementById('register-form-box').style.display = type === 'register' ? 'block' : 'none';
+    const loginBox = document.getElementById('login-form-box');
+    const regBox = document.getElementById('register-form-box');
+    if(loginBox) loginBox.style.display = type === 'register' ? 'none' : 'block';
+    if(regBox) regBox.style.display = type === 'register' ? 'block' : 'none';
 }
 
 function handleRegister(e) {
@@ -230,17 +243,19 @@ function handleLogin(e) {
 
     if (localStorage.getItem(`user_${email}`) === enteredPassword) {
         currentUser = email;
-        document.getElementById('login-form-box').style.display = 'none';
-        document.getElementById('user-status').style.display = 'block';
-        document.getElementById('user-display-email').innerText = email;
-        document.getElementById('history-box').style.display = 'block';
+        if(document.getElementById('login-form-box')) document.getElementById('login-form-box').style.display = 'none';
+        if(document.getElementById('user-status')) document.getElementById('user-status').style.display = 'block';
+        if(document.getElementById('user-display-email')) document.getElementById('user-display-email').innerText = email;
+        if(document.getElementById('history-box')) document.getElementById('history-box').style.display = 'block';
         
+        const switcher = document.getElementById('admin-switcher-bar');
+        const badge = document.getElementById('admin-badge-notice');
         if (email === 'sweet@123') {
-            document.getElementById('admin-switcher-bar').style.display = 'flex';
-            document.getElementById('admin-badge-notice').style.display = 'block';
+            if(switcher) switcher.style.display = 'flex';
+            if(badge) badge.style.display = 'block';
         } else {
-            document.getElementById('admin-switcher-bar').style.display = 'none';
-            document.getElementById('admin-badge-notice').style.display = 'none';
+            if(switcher) switcher.style.display = 'none';
+            if(badge) badge.style.display = 'none';
         }
 
         renderHistoryOrders();
@@ -251,11 +266,10 @@ function handleLogin(e) {
 
 function handleLogout() {
     currentUser = null; cart = []; updateCartUI();
-    document.getElementById('login-form-box').style.display = 'block';
-    document.getElementById('user-status').style.display = 'none';
-    document.getElementById('history-box').style.display = 'none';
-    
-    document.getElementById('admin-switcher-bar').style.display = 'none';
+    if(document.getElementById('login-form-box')) document.getElementById('login-form-box').style.display = 'block';
+    if(document.getElementById('user-status')) document.getElementById('user-status').style.display = 'none';
+    if(document.getElementById('history-box')) document.getElementById('history-box').style.display = 'none';
+    if(document.getElementById('admin-switcher-bar')) document.getElementById('admin-switcher-bar').style.display = 'none';
     switchSystem('user'); 
 }
 
@@ -294,7 +308,6 @@ function renderHistoryOrders() {
 
 function refreshAdminDashboard() {
     const orders = getGlobalOrders();
-    
     const newCount = orders.filter(o => o.status === 'pending').length;
     const cookingCount = orders.filter(o => o.status === 'cooking').length;
     const revenue = orders.filter(o => o.status === 'completed').reduce((sum, o) => sum + o.total, 0);
@@ -353,7 +366,6 @@ function refreshAdminDashboard() {
 function updateOrderStatus(orderId, newStatus) {
     let orders = getGlobalOrders();
     const index = orders.findIndex(o => o.orderId === orderId);
-    
     if (index !== -1) {
         orders[index].status = newStatus;
         saveGlobalOrders(orders);

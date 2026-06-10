@@ -549,3 +549,53 @@
            display: none;
          }
        }
+/* ==========================================================================
+   手機版導覽列優化：強制顯示圖標，隱藏文字
+   ========================================================================== */
+
+/* 1. 在電腦版大螢幕時，先預設隱藏手機版的 Emoji 圖標 */
+.nav-menu .nav-icon {
+    display: none !important;
+}
+
+/* 2. 當螢幕寬度小於 768px（手機板與平板）時執行的強力樣式 */
+@media screen and (max-width: 767px) {
+    
+    /* 強制選單容器水平排列，不換行 */
+    .nav-menu {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: space-around !important;
+        align-items: center !important;
+        width: auto !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    .nav-menu li {
+        display: inline-block !important;
+        list-style: none !important;
+    }
+
+    /* 強制顯示手機版的 Emoji 圖標，並給它足夠的大小 */
+    .nav-menu .nav-icon {
+        display: inline-block !important;
+        font-size: 22px !important; /* 如果覺得太大或太小，可以調整這個數值 */
+        line-height: 1 !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+
+    /* 🔥 核心：強制隱藏中文字，避免文字擠壓換行 */
+    .nav-menu .nav-text {
+        display: none !important;
+    }
+    
+    /* 針對購物車的特別調整，確保購物車圖標與數字 (0) 能並排顯示 */
+    .nav-menu li a {
+        display: flex !important;
+        align-items: center !important;
+        font-size: 20px !important;
+        text-decoration: none !important;
+    }
+}

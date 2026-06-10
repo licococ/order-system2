@@ -342,3 +342,18 @@ let currentUser = null;
                 // 切換到手機排版
             }
         });
+        function detectDevice() {
+                    const width = window.innerWidth;
+                    if (width >= 768) {
+                        document.body.classList.remove('is-mobile');
+                        document.body.classList.add('is-pc');
+                        console.log("偵測環境：💻 電腦版樣式已就緒");
+                    } else {
+                        document.body.classList.remove('is-pc');
+                        document.body.classList.add('is-mobile');
+                        console.log("偵測環境：📱 手機版樣式已就緒");
+                    }
+                }
+                // 初始化偵測與視窗縮放監聽
+                detectDevice();
+                window.addEventListener('resize', detectDevice);

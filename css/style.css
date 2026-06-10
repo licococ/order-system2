@@ -599,3 +599,62 @@
         text-decoration: none !important;
     }
 }
+/* ==========================================================================
+   手機版導覽列：極簡法式質感圖標風格
+   ========================================================================== */
+
+/* 電腦版時，隱藏我們新加的線條圖標（原本的文字會正常顯示） */
+.nav-menu .nav-icon {
+    display: none !important;
+}
+
+/* 當螢幕寬度小於 768px（手機板）時的法式優雅轉變 */
+@media screen and (max-width: 767px) {
+    
+    /* 讓選單水平一字排開，均勻分配空間 */
+    .nav-menu {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: space-around !important;
+        align-items: center !important;
+        width: 100% !important;
+        padding: 10px 0 !important;
+        margin: 0 !important;
+    }
+
+    .nav-menu li {
+        display: inline-block !important;
+        list-style: none !important;
+    }
+
+    /* 讓圖標呈現優雅的棕色（跟你們網站的主色系一致） */
+    .nav-menu .nav-icon, 
+    .nav-menu li a i {
+        display: inline-block !important;
+        font-size: 20px !important; /* 精緻的大小，不會太大太粗俗 */
+        color: #7a5844 !important;  /* 貼合網頁的質感巧克力/咖啡色 */
+        visibility: visible !important;
+        opacity: 0.85 !important;
+        transition: opacity 0.3s ease;
+    }
+
+    /* 點擊或碰觸到時稍微加深顏色 */
+    .nav-menu li a:hover i {
+        opacity: 1 !important;
+        color: #b57a5f !important;
+    }
+
+    /* 🔥 核心：完美隱藏手機版的中文字，再也不會擠成一團 */
+    .nav-menu .nav-text {
+        display: none !important;
+    }
+    
+    /* 確保購物車圖標與數字並排齊高 */
+    .nav-menu li a {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-decoration: none !important;
+        height: 100%;
+    }
+}

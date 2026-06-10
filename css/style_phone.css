@@ -106,3 +106,41 @@
     text-decoration: none !important;
     height: 100%;
 }
+/* ==========================================================================
+   ⚡ 手機端點擊事件（JavaScript）優化與防擋修復
+   ========================================================================== */
+
+/* 確保頂部導覽列與裡面的所有按鈕都在最上層，不被主視覺卡片擋住 */
+header {
+    position: relative !important;
+    z-index: 9999 !important;
+}
+
+.nav-container, .nav-menu, .nav-menu li, .nav-menu a {
+    pointer-events: auto !important; /* 強制重啟點擊事件 */
+    cursor: pointer !important;
+}
+
+/* 確保主視覺白卡片裡面的按鈕可以被點擊 */
+.hero-content {
+    position: relative !important;
+    z-index: 10 !important;
+}
+
+.btn-primary, .btn-checkout, .auth-switch a, button {
+    position: relative !important;
+    z-index: 20 !important;
+    pointer-events: auto !important; /* 確保點擊穿透不會失效 */
+    cursor: pointer !important;
+}
+
+/* ⚠️ 將頂部「核心特權帳號雙端切換列」層級調低，避免它在手機版產生隱形擋板 */
+#admin-switcher-bar {
+    position: relative !important;
+    z-index: 5 !important;
+}
+
+/* 將右下角成員標籤層級調低，或暫時不擋住主要按鈕 */
+.project-badge {
+    z-index: 5 !important;
+}

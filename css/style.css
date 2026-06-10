@@ -542,11 +542,3 @@
         .btn-accept:hover { background: #0984e3; }
         .btn-finish { background: #2ecc71; color: white; }
         .btn-finish:hover { background: #27ae60; }
-/* 當螢幕寬度小於 768px (一般手機常見寬度) 時 */
-       @media (max-width: 768px) {
-           /* 這裡寫手機版的特殊樣式 */
-           .container { padding: 10px; }
-           .hero-section { padding: 20px; }
-           .order-layout { grid-template-columns: 1fr; } /* 強制變成單欄 */
-           .nav-menu { display: none; } /* 手機版隱藏選單，改用漢堡選單 */
-       }

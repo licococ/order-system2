@@ -9,11 +9,11 @@
     
     <link rel="stylesheet" href="css/style.css">
     
-    <link rel="stylesheet" href="css/style_phone.css?v=1.3" media="screen and (max-width: 767px)">
+    <link rel="stylesheet" href="css/style_phone.css?v=1.4" media="screen and (max-width: 767px)">
 </head>
 <body>
 
-    <div class="system-switcher" id="admin-switcher-bar">
+    <div class="system-switcher" id="admin-switcher-bar" style="display: none;">
         <span>⚙️ 核心特權帳號登入：專題雙端切換</span>
         <button id="switch-user-btn" class="active" onclick="switchSystem('user')">📱 顧客前台下單端</button>
         <button id="switch-admin-btn" onclick="switchSystem('admin')">🏪 店家後台接單端</button>
@@ -122,13 +122,106 @@
             </section>
 
             <section id="login-section" class="page-section">
-                </section>
+                <div class="login-wrapper">
+                    <div class="login-card" id="login-form-box">
+                        <h2>會員登入</h2>
+                        <p class="login-subtitle">歡迎回到甜蜜時光，請輸入您的帳號密碼</p>
+                        <form onsubmit="handleLogin(event)">
+                            <div class="form-group">
+                                <label><i class="fa-regular fa-envelope"></i> 電子信箱</label>
+                                <input type="email" id="login-email" placeholder="example@email.com" required>
+                            </div>
+                            <div class="form-group">
+                                <label><i class="fa-solid fa-lock"></i> 密碼</label>
+                                <input type="password" id="login-password" placeholder="請輸入密碼" required>
+                            </div>
+                            <button type="submit" class="btn-submit">立即登入</button>
+                        </form>
+                        <div class="form-toggle-link">
+                            還不是會員嗎？ <a onclick="toggleForm('register')">點我註冊新帳號</a>
+                        </div>
+                    </div>
+
+                    <div class="login-card" id="register-form-box" style="display: none;">
+                        <h2>註冊新會員</h2>
+                        <p class="login-subtitle">加入會員，即刻開啟美味的甜點購物之旅</p>
+                        <form onsubmit="handleRegister(event)">
+                            <div class="form-group">
+                                <label><i class="fa-regular fa-envelope"></i> 電子信箱</label>
+                                <input type="email" id="reg-email" placeholder="example@email.com" required>
+                            </div>
+                            <div class="form-group">
+                                <label><i class="fa-solid fa-lock"></i> 設定密─碼</label>
+                                <input type="password" id="reg-password" placeholder="請輸入密碼" required>
+                            </div>
+                            <div class="form-group">
+                                <label><i class="fa-solid fa-shield"></i> 確認密碼</label>
+                                <input type="password" id="reg-confirm" placeholder="請再次輸入密碼" required>
+                            </div>
+                            <button type="submit" class="btn-submit btn-reg">確認註冊</button>
+                        </form>
+                        <div class="form-toggle-link">
+                            已經有帳號了？ <a onclick="toggleForm('login')">返回登入介面</a>
+                        </div>
+                    </div>
+
+                    <div class="login-card" id="user-status" style="display: none;">
+                        <div class="welcome-box">
+                            <span class="user-avatar-icon">👑</span>
+                            <h3>尊貴的會員，您好！</h3>
+                            <p class="user-email-display" id="user-display-email">---</p>
+                            
+                            <div id="admin-badge-notice" class="admin-notice-tag" style="display: none;">
+                                🔑 檢測到核心特權身份！上方已解鎖「雙端切換列」
+                            </div>
+
+                            <button onclick="handleLogout()" class="btn-logout">安全登出帳號</button>
+                        </div>
+                    </div>
+
+                    <div class="history-section-box" id="history-box" style="display: none;">
+                        <h3 class="history-title">📜 您的歷史消費紀錄</h3>
+                        <div id="history-list-content"></div>
+                    </div>
+                </div>
+            </section>
         </div>
     </div>
 
     <div id="admin-view" style="display: none;">
-        </div>
+        <div class="admin-dashboard-container">
+            <div class="admin-sidebar">
+                <h2>🏪 店家管理後台</h2>
+                <p style="color:#a88; font-size:12px;">專題即時動態接單核心</p>
+                <hr style="border:0; border-top:1px solid #444; margin:20px 0;">
+                <button class="admin-nav-btn active">📦 訂單即時控管</button>
+                <button class="admin-nav-btn" onclick="switchSystem('user')" style="background:#c0392b; color:#fff; margin-top:20px;">退出後台返回前台</button>
+            </div>
 
-    <script src="js/script.js?v=1.5"></script>
+            <div class="admin-main-content">
+                <div class="admin-stats-grid">
+                    <div class="stat-card">
+                        <h4>新進訂單 (待處理)</h4>
+                        <div class="stat-number" id="stat-new-orders" style="color: #e67e22;">0 筆</div>
+                    </div>
+                    <div class="stat-card">
+                        <h4>甜點主廚 (製作中)</h4>
+                        <div class="stat-number" id="stat-cooking-orders" style="color: #2980b9;">0 筆</div>
+                    </div>
+                    <div class="stat-card">
+                        <h4>今日累計營業額</h4>
+                        <div class="stat-number" style="color: #27ae60;">NT$ <span id="stat-total-revenue">0</span></div>
+                    </div>
+                </div>
+
+                <h3 style="color:#5c4033; margin-bottom:15px; display:flex; align-items:center; gap:8px;">
+                    📋 全台即時顧客訂單動態流水線
+                </h3>
+                <div id="admin-orders-list-box"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/script.js?v=1.6"></script>
 </body>
 </html>

@@ -8,7 +8,7 @@ let currentUser = null;
             { id: 1, name: "法式盛夏芒果塔", price: 160, category: "法式塔類", img: "images/mango.jpg" },
             { id: 2, name: "小山園宇治抹茶塔", price: 150, category: "法式塔類", img: "images/matcha.jpg" },
             { id: 3, name: "炙燒焦糖檸檬塔", price: 140, category: "法式塔類", img: "images/lemon_tart.jpg" },
-            { id: 4, name: "經典草莓戚風蛋糕", price: 240, category: "招牌蛋糕", img: "images/cake_cocoa.jpg" },
+            { id: 4, name: "經典草莓戚風蛋糕", price: 240, category: "招牌蛋糕", img: "images/cake_berry.jpg" },
             { id: 5, name: "比利時濃郁榛果黑巧蛋糕", price: 220, category: "招牌蛋糕", img: "images/cake_cocoa.jpg" },
             { id: 6, name: "海鹽焦糖巴斯克乳酪蛋糕", price: 180, category: "招牌蛋糕", img: "images/cake_cheese.jpg" },
             { id: 7, name: "靜岡抹茶瑪德蓮 (3入)", price: 110, category: "常溫點心", img: "images/madeleine.jpg" },

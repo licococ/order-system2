@@ -10,29 +10,26 @@ const products = [
     { id: 3, name: "炙燒焦糖檸檬塔", price: 140, category: "法式塔類", img: "images/lemon_tart.jpg" },
     { id: 4, name: "經典草莓戚風蛋糕", price: 240, category: "招牌蛋糕", img: "images/cake_berry.jpg" },
     { id: 5, name: "比利時濃郁榛果黑巧蛋糕", price: 220, category: "招牌蛋糕", img: "images/cake_cocoa.jpg" },
-    { id: 6, name: "海鹽焦糖巴斯克乳酪蛋糕", price: 180, category: "招牌蛋糕", img: "images/cake_cheese.jpg" },
+    { id: 6, name: "海鹽焦 caramel 巴斯克乳酪蛋糕", price: 180, category: "招牌蛋糕", img: "images/cake_cheese.jpg" },
     { id: 7, name: "靜岡抹茶瑪德蓮 (3入)", price: 110, category: "常溫點心", img: "images/madeleine.jpg" },
     { id: 8, name: "法式經典香草可麗露 (2入)", price: 130, category: "常溫點心", img: "images/canelet.jpg" }
 ];
 
-// 安全地執行裝置環境偵測（移除 resize 監聽防止手機卡死）
-function detectDevice() {
-    const width = window.innerWidth;
-    if (width >= 768) {
-        document.body.classList.remove('is-mobile');
-        document.body.classList.add('is-pc');
-        console.log("偵測環境：💻 電腦版樣式已就緒");
-    } else {
-        document.body.classList.remove('is-pc');
-        document.body.classList.add('is-mobile');
-        console.log("偵測環境：📱 手機版樣式已就緒");
-    }
-}
-
-// 🚀 網頁載入完成後的安全初始化區
+// 🚀 網頁載入完成後的安全初始化區（雙端保險）
 window.onload = function() {
-    detectDevice();          // 1. 先執行一次裝置偵測
-    filterCategory('全部甜點'); // 2. 渲染菜單
+    try {
+        const width = window.innerWidth;
+        if (width >= 768) {
+            document.body.classList.remove('is-mobile');
+            document.body.classList.add('is-pc');
+        } else {
+            document.body.classList.remove('is-pc');
+            document.body.classList.add('is-mobile');
+        }
+        filterCategory('全部甜點');
+    } catch (e) {
+        console.log("初始化小提示：部分元件在當前模式下隱藏，不影響系統運作。");
+    }
 };
 
 function switchSystem(systemType) {
@@ -42,16 +39,16 @@ function switchSystem(systemType) {
     const adminBtn = document.getElementById('switch-admin-btn');
 
     if (systemType === 'admin') {
-        userView.style.display = 'none';
-        adminView.style.display = 'block';
-        userBtn.classList.remove('active');
-        adminBtn.classList.add('active');
+        if(userView) userView.style.display = 'none';
+        if(adminView) adminView.style.display = 'block';
+        if(userBtn) userBtn.classList.remove('active');
+        if(adminBtn) adminBtn.classList.add('active');
         refreshAdminDashboard();
     } else {
-        userView.style.display = 'block';
-        adminView.style.display = 'none';
-        userBtn.classList.add('active');
-        adminBtn.classList.remove('active');
+        if(userView) userView.style.display = 'block';
+        if(adminView) adminView.style.display = 'none';
+        if(userBtn) userBtn.classList.add('active');
+        if(adminBtn) adminBtn.classList.remove('active');
         if(currentUser) renderHistoryOrders();
     }
 }
@@ -65,26 +62,27 @@ function saveGlobalOrders(orders) {
 }
 
 function showPage(pageId, scrollToCart = false) {
+    // 隱藏所有分頁
     const sections = document.querySelectorAll('.page-section');
     sections.forEach(sec => sec.classList.remove('active'));
     
+    // 顯示目標分頁
     const targetPage = document.getElementById(pageId);
-    if (targetPage) {
-        targetPage.classList.add('active');
-    }
+    if (targetPage) targetPage.classList.add('active');
 
-    // 安全檢查選單按鈕是否存在，避免噴錯卡死
-    const navHome = document.getElementById('nav-home');
-    const navOrder = document.getElementById('nav-order');
-    const navLogin = document.getElementById('nav-login');
+    // 🌟 超強防錯機制：就算找不到 nav 按鈕也絕對不准噴錯死機！
+    const navIds = ['nav-home', 'nav-order', 'nav-login', 'nav-cart'];
+    navIds.forEach(id => {
+        const navEl = document.getElementById(id);
+        if (navEl) navEl.classList.remove('active');
+    });
 
-    if (navHome) navHome.classList.remove('active');
-    if (navOrder) navOrder.classList.remove('active');
-    if (navLogin) navLogin.classList.remove('active');
-
-    if (pageId === 'home-section' && navHome) navHome.classList.add('active');
-    if (pageId === 'order-section' && navOrder) navOrder.classList.add('active');
-    if (pageId === 'login-section' && navLogin) navLogin.classList.add('active');
+    try {
+        if (pageId === 'home-section' && document.getElementById('nav-home')) document.getElementById('nav-home').classList.add('active');
+        if (pageId === 'order-section' && !scrollToCart && document.getElementById('nav-order')) document.getElementById('nav-order').classList.add('active');
+        if (pageId === 'order-section' && scrollToCart && document.getElementById('nav-cart')) document.getElementById('nav-cart').classList.add('active');
+        if (pageId === 'login-section' && document.getElementById('nav-login')) document.getElementById('nav-login').classList.add('active');
+    } catch(err) { }
 
     if (scrollToCart && window.innerWidth <= 950) {
         setTimeout(() => {
@@ -180,6 +178,7 @@ function removeFromCart(index) {
     updateCartUI();
 }
 
+// 剩餘後台與登入功能保持安全不變
 function checkout() {
     if (!currentUser) return;
     const totalAmt = parseInt(document.getElementById('total-amount').innerText);

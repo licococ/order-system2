@@ -1,146 +1,52 @@
 /* ==========================================================================
-   🧁 甜蜜時光 - 手機版專用獨立樣式 (mobile.css)
+   3. 手機版樣式 (當螢幕寬度在 768px 以下時自動覆蓋)
    ========================================================================== */
+@media (max-width: 768px) {
+    /* 手機版頂部改為垂直排列或置中 */
+    header {
+        flex-direction: column;
+        padding: 15px;
+        gap: 15px;
+    }
 
-/* 1. 頂部導覽列：修正「甜蜜時光 Patisserie」斷行問題 */
-.nav-container {
-    flex-direction: column !important; 
-    gap: 12px !important;
-    padding: 12px 15px !important;
-}
+    /* 手機版導覽列改為垂直整齊排列，移除預設點點與歪斜 */
+    nav ul {
+        flex-direction: column;
+        width: 100%;
+        gap: 12px;
+        padding: 10px 0;
+        text-align: center;
+        background-color: #fbf8f5;
+        border-radius: 8px;
+    }
 
-.logo {
-    font-size: 20px !important;       
-    white-space: nowrap !important;   
-    justify-content: center !important;
-    width: 100% !important;
-    letter-spacing: 1.5px !important;
-}
+    nav ul li {
+        width: 100%;
+    }
 
-/* 2. 修正中央首頁區塊（白色卡片與文字） */
-.hero-section {
-    background-attachment: scroll !important; 
-    margin-bottom: 30px !important;
-}
+    /* 首頁主視覺在手機版改成上下堆疊 */
+    .hero-section {
+        flex-direction: column-reverse; /* 圖片通常在手機版放上面或下面，這裡設定圖下文字上 */
+        margin: 20px auto;
+        gap: 30px;
+        text-align: center;
+    }
 
-.hero-content {
-    padding: 30px 20px !important;   
-    width: 100% !important;
-}
+    .hero-text h1 {
+        font-size: 28px; /* 手機版標題縮小 */
+    }
 
-.hero-content h1 {
-    font-size: 26px !important;       
-    line-height: 1.5 !important;      
-    text-align: center !important;     
-    word-break: keep-all !important;  
-    letter-spacing: 1px !important;
-}
+    .hero-text p {
+        font-size: 15px;
+    }
 
-.hero-content p {
-    font-size: 14px !important;       
-    line-height: 1.7 !important;
-    text-align: justify !important;    
-    margin-bottom: 20px !important;
-}
-
-.btn-primary {
-    display: block !important;         
-    width: 85% !important;
-    max-width: 240px !important;
-    margin: 0 auto !important;         
-    padding: 12px 20px !important;
-    text-align: center !important;
-}
-
-/* 3. 互動式浮動標籤 */
-.project-badge {
-    bottom: 15px !important;          
-    right: 15px !important;
-    padding: 10px 16px !important;
-    font-size: 12px !important;
-}
-
-/* 4. 特性卡片與點餐區調整 */
-.section-title {
-    font-size: 22px !important;       
-    margin-bottom: 25px !important;
-}
-
-.features-grid {
-    gap: 15px !important;             
-    margin-bottom: 40px !important;
-}
-
-.feature-card {
-    padding: 25px 20px !important;    
-}
-
-/* 5. 原本網頁尾端的手機導覽列優化機制（直接移過來） */
-.nav-menu {
-    display: flex !important;
-    flex-direction: row !important;
-    justify-content: space-around !important;
-    align-items: center !important;
-    width: 100% !important;
-    padding: 10px 0 !important;
-    margin: 0 !important;
-}
-.nav-menu li {
-    display: inline-block !important;
-    list-style: none !important;
-}
-.nav-menu .nav-icon, .nav-menu li a i {
-    display: inline-block !important;
-    font-size: 20px !important; 
-    color: #7a5844 !important;  
-    visibility: visible !important;
-    opacity: 0.85 !important;
-}
-.nav-menu .nav-text {
-    display: none !important;
-}
-.nav-menu li a {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    text-decoration: none !important;
-    height: 100%;
-}
-/* ==========================================================================
-   ⚡ 手機端點擊事件（JavaScript）優化與防擋修復
-   ========================================================================== */
-
-/* 確保頂部導覽列與裡面的所有按鈕都在最上層，不被主視覺卡片擋住 */
-header {
-    position: relative !important;
-    z-index: 9999 !important;
-}
-
-.nav-container, .nav-menu, .nav-menu li, .nav-menu a {
-    pointer-events: auto !important; /* 強制重啟點擊事件 */
-    cursor: pointer !important;
-}
-
-/* 確保主視覺白卡片裡面的按鈕可以被點擊 */
-.hero-content {
-    position: relative !important;
-    z-index: 10 !important;
-}
-
-.btn-primary, .btn-checkout, .auth-switch a, button {
-    position: relative !important;
-    z-index: 20 !important;
-    pointer-events: auto !important; /* 確保點擊穿透不會失效 */
-    cursor: pointer !important;
-}
-
-/* ⚠️ 將頂部「核心特權帳號雙端切換列」層級調低，避免它在手機版產生隱形擋板 */
-#admin-switcher-bar {
-    position: relative !important;
-    z-index: 5 !important;
-}
-
-/* 將右下角成員標籤層級調低，或暫時不擋住主要按鈕 */
-.project-badge {
-    z-index: 5 !important;
+    /* 手機版登入表單：寬度貼近螢幕邊緣 */
+    .login-container {
+        margin: 30px 20px;
+        padding: 25px 20px;
+    }
+    
+    .login-container h2 {
+        font-size: 24px;
+    }
 }

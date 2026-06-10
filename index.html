@@ -9,7 +9,7 @@
     
     <link rel="stylesheet" href="css/style.css">
     
-    <link rel="stylesheet" href="css/style_phone.css?v=1.4" media="screen and (max-width: 767px)">
+    <link rel="stylesheet" href="css/style_phone.css?v=1.2" media="screen and (max-width: 767px)">
 </head>
 <body>
 
@@ -29,7 +29,7 @@
     <div id="user-view">
         <header>
             <div class="nav-container">
-                <a onclick="showPage('home-section')" class="logo">🍰 甜蜜時光 Patisserie</a>
+                <a onclick="showPage('home-section')" class="logo" style="cursor: pointer;">🍰 甜蜜時光 Patisserie</a>
                 
                 <ul class="nav-menu">
                     <li>
@@ -57,7 +57,7 @@
                         </a>
                     </li>
                     <li>
-                        <a id="nav-cart" onclick="showPage('order-section', true)" style="color: #b57a5f; font-weight: bold; display: flex; align-items: center; gap: 4px;">
+                        <a id="nav-cart" onclick="showPage('order-section', true)" style="color: #b57a5f; font-weight: bold; display: flex; align-items: center; gap: 4px; cursor: pointer;">
                             <i class="fa-solid fa-bag-shopping" style="font-size: 18px;"></i>
                             <span class="nav-text">購物車</span>
                             <span>(<span id="cart-count">0</span>)</span>
@@ -151,7 +151,7 @@
                                 <input type="email" id="reg-email" placeholder="example@email.com" required>
                             </div>
                             <div class="form-group">
-                                <label><i class="fa-solid fa-lock"></i> 設定密─碼</label>
+                                <label><i class="fa-solid fa-lock"></i> 設定密碼</label>
                                 <input type="password" id="reg-password" placeholder="請輸入密碼" required>
                             </div>
                             <div class="form-group">
@@ -222,6 +222,6 @@
         </div>
     </div>
 
-    <script src="js/script.js?v=1.6"></script>
+    <script src="js/script.js?v=1.7"></script>
 </body>
 </html>

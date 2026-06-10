@@ -8,12 +8,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <link rel="stylesheet" href="css/style.css">
-    
-    <link rel="stylesheet" href="css/style_phone.css?v=1.2" media="screen and (max-width: 767px)">
+    <link rel="stylesheet" href="css/style_phone.css?v=1.3" media="screen and (max-width: 768px)">
 </head>
 <body>
 
-    <div class="system-switcher" id="admin-switcher-bar" style="display: none;">
+    <div class="system-switcher" id="admin-switcher-bar" style="display: block;">
         <span>⚙️ 核心特權帳號登入：專題雙端切換</span>
         <button id="switch-user-btn" class="active" onclick="switchSystem('user')">📱 顧客前台下單端</button>
         <button id="switch-admin-btn" onclick="switchSystem('admin')">🏪 店家後台接單端</button>
@@ -41,7 +40,7 @@
                     <li class="dropdown">
                         <a id="nav-order" onclick="showPage('order-section')">
                             <i class="fa-regular fa-clipboard nav-icon"></i>
-                            <span class="nav-text">線上點餐 ▾</span>
+                            <span class="nav-text">線上點餐 <i class="fa-solid fa-chevron-down" style="font-size: 11px;"></i></span>
                         </a>
                         <div class="dropdown-content">
                             <a onclick="showPage('order-section'); filterCategory('全部甜點')">全部甜點</a>
@@ -57,10 +56,10 @@
                         </a>
                     </li>
                     <li>
-                        <a id="nav-cart" onclick="showPage('order-section', true)" style="color: #b57a5f; font-weight: bold; display: flex; align-items: center; gap: 4px; cursor: pointer;">
-                            <i class="fa-solid fa-bag-shopping" style="font-size: 18px;"></i>
+                        <a id="nav-cart" onclick="showPage('order-section', true)" class="nav-cart-btn">
+                            <i class="fa-solid fa-bag-shopping"></i>
                             <span class="nav-text">購物車</span>
-                            <span>(<span id="cart-count">0</span>)</span>
+                            <span class="cart-badge">(<span id="cart-count">0</span>)</span>
                         </a>
                     </li>
                 </ul>
@@ -68,6 +67,7 @@
         </header>
 
         <div class="container">
+            
             <section id="home-section" class="page-section active">
                 <div class="hero-section">
                     <div class="hero-content">
@@ -75,7 +75,9 @@
                         <p>每一道手工甜點，都是精選頂級食材與職人精神的完美揉合。減糖配方設計，為您捎來最純粹、無負擔的幸福滋味。</p>
                         <button class="btn-primary" onclick="showPage('order-section'); filterCategory('全部甜點')">探索精選甜點</button>
                     </div>
-                    <img src="images/cake_berry.jpg" class="hero-featured-img" alt="主打草莓戚風蛋糕">
+                    <div class="hero-image-wrapper">
+                        <img src="images/cake_berry.jpg" class="hero-featured-img" alt="主打草莓戚風蛋糕">
+                    </div>
                 </div>
 
                 <h2 class="section-title">我們的烘焙堅持</h2>
@@ -107,13 +109,13 @@
                     </div>
 
                     <div class="cart-box" id="cart-anchor">
-                        <h3>🛒 我的購物車</h3>
+                        <h3><i class="fa-solid fa-cart-shopping"></i> 我的購物車</h3>
                         <div class="empty-cart-msg" id="empty-cart-msg">購物車目前是空的。</div>
                         <ul class="cart-items-list" id="cart-items"></ul>
                         <div class="cart-total-box" id="cart-total-box" style="display: none;">
                             <div class="total-row">
                                 <span>總金額：</span>
-                                <span>NT$ <span id="total-amount">0</span></span>
+                                <span class="total-price">NT$ <span id="total-amount">0</span></span>
                             </div>
                             <button class="btn-checkout" onclick="checkout()">確認送出訂單</button>
                         </div>
@@ -123,6 +125,7 @@
 
             <section id="login-section" class="page-section">
                 <div class="login-wrapper">
+                    
                     <div class="login-card" id="login-form-box">
                         <h2>會員登入</h2>
                         <p class="login-subtitle">歡迎回到甜蜜時光，請輸入您的帳號密碼</p>
@@ -192,10 +195,10 @@
         <div class="admin-dashboard-container">
             <div class="admin-sidebar">
                 <h2>🏪 店家管理後台</h2>
-                <p style="color:#a88; font-size:12px;">專題即時動態接單核心</p>
-                <hr style="border:0; border-top:1px solid #444; margin:20px 0;">
-                <button class="admin-nav-btn active">📦 訂單即時控管</button>
-                <button class="admin-nav-btn" onclick="switchSystem('user')" style="background:#c0392b; color:#fff; margin-top:20px;">退出後台返回前台</button>
+                <p style="color:#ffa4a4; font-size:12px; letter-spacing: 1px;">專題即時動態接單核心</p>
+                <hr style="border:0; border-top:1px solid #555; margin:20px 0;">
+                <button class="admin-nav-btn active"><i class="fa-solid fa-boxes-stacked"></i> 訂單即時控管</button>
+                <button class="admin-nav-btn logout-btn" onclick="switchSystem('user')">退出後台返回前台</button>
             </div>
 
             <div class="admin-main-content">
@@ -206,16 +209,16 @@
                     </div>
                     <div class="stat-card">
                         <h4>甜點主廚 (製作中)</h4>
-                        <div class="stat-number" id="stat-cooking-orders" style="color: #2980b9;">0 筆</div>
+                        <div class="stat-number" id="stat-cooking-orders" style="color: #3498db;">0 筆</div>
                     </div>
                     <div class="stat-card">
                         <h4>今日累計營業額</h4>
-                        <div class="stat-number" style="color: #27ae60;">NT$ <span id="stat-total-revenue">0</span></div>
+                        <div class="stat-number" style="color: #2ecc71;">NT$ <span id="stat-total-revenue">0</span></div>
                     </div>
                 </div>
 
-                <h3 style="color:#5c4033; margin-bottom:15px; display:flex; align-items:center; gap:8px;">
-                    📋 全台即時顧客訂單動態流水線
+                <h3 class="pipeline-title">
+                    <i class="fa-solid fa-network-wired"></i> 全台即時顧客訂單動態流水線
                 </h3>
                 <div id="admin-orders-list-box"></div>
             </div>

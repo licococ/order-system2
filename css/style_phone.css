@@ -248,8 +248,8 @@
 
     /* ================= 豪華版首頁樣式 ================= */
     .hero-section {
-        background: linear-gradient(135deg, rgba(243, 230, 223, 0.9) 0%, rgba(234, 222, 122, 0.4) 100%), url('images/cake_berry.jpg');
-        background-size: cover;
+        background: linear-gradient(135deg, rgba(243, 230, 223, 0.9) 0%, rgba(234, 222, 122, 0.4) 100%), url('../images/cake_berry.jpg');
+        background-size: cover;./
         background-position: center;
         border-radius: 16px;
         padding: 40px 20px;

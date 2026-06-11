@@ -372,3 +372,18 @@ function updateOrderStatus(orderId, newStatus) {
         refreshAdminDashboard();
     }
 }
+    document.addEventListener('DOMContentLoaded', function() {
+        const dropdown = document.querySelector('.dropdown');
+        const dropdownContent = document.querySelector('.dropdown-content');
+    
+        // 點擊觸發開關
+        dropdown.addEventListener('click', function(e) {
+            e.stopPropagation(); // 防止點擊時事件冒泡
+            dropdownContent.classList.toggle('show');
+        });
+    
+        // 點擊頁面其他地方時關閉選單
+        document.addEventListener('click', function() {
+            dropdownContent.classList.remove('show');
+        });
+    });
